@@ -2,21 +2,32 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#0A0A14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Couple Expenses — Prototype v5</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block">
 <style>
 .ti { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased; font-variation-settings: 'opsz' 24, 'wght' 400, 'FILL' 0, 'GRAD' 0; vertical-align: middle; }
-body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; }
-.proto-shell { width: 100%; max-width: 380px; padding: 1rem 0; }
-.phone { background: #0A0A14; border-radius: 32px; padding: 14px 0 0; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; position: relative; }
-.notch { width: 80px; height: 22px; background: #000; border-radius: 0 0 16px 16px; margin: 0 auto 6px; }
-.scr { color: #FFF; min-height: 720px; position: relative; display: none; }
+body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height: 100dvh; color: #FFF; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; overscroll-behavior: none; }
+.proto-shell { width: 100%; min-height: 100vh; min-height: 100dvh; }
+.phone { background: #0A0A14; min-height: 100vh; min-height: 100dvh; position: relative; overflow: hidden; }
+.scr { color: #FFF; min-height: 100vh; min-height: 100dvh; position: relative; display: none; padding-top: env(safe-area-inset-top, 0); padding-bottom: env(safe-area-inset-bottom, 0); }
 .scr.active { display: block; }
-.statusbar { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 600; opacity: 0.9; margin: 0 22px 16px; padding: 0 4px; }
-.statusbar .right { display: flex; gap: 4px; align-items: center; font-size: 10px; }
+@media (min-width: 640px) {
+  body { padding: 20px; background: #1A1A26; display: flex; align-items: flex-start; justify-content: center; }
+  .proto-shell { max-width: 380px; min-height: 0; padding: 1rem 0; }
+  .phone { border-radius: 32px; padding: 14px 0 0; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.3); min-height: 0; }
+  .scr { min-height: 720px; padding-top: 0; padding-bottom: 0; }
+  .notch-desktop { display: block; }
+  .statusbar-desktop { display: flex; }
+}
+.notch-desktop { display: none; width: 80px; height: 22px; background: #000; border-radius: 0 0 16px 16px; margin: 0 auto 6px; }
+.statusbar-desktop { display: none; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 600; opacity: 0.9; margin: 0 22px 16px; padding: 0 4px; }
+.statusbar-desktop .right { display: flex; gap: 4px; align-items: center; font-size: 10px; }
 .top-row { display: flex; justify-content: space-between; align-items: center; margin: 0 18px 14px; }
 .av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; color: #FFF; cursor: pointer; }
 .av-me-grad { background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); }
@@ -40,8 +51,22 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
 .total-card.her .total-name { color: #FFB4D1; }
 .total-amount { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.1; }
 .total-count { font-size: 10px; color: #6E6E8C; margin-top: 2px; }
-.chat-area { display: flex; flex-direction: column; gap: 8px; padding: 0 18px 180px; }
-.chat-empty { text-align: center; color: #5A5A78; font-size: 13px; padding: 40px 20px; }
+.chat-area { display: flex; flex-direction: column; gap: 8px; padding: 0 18px 16px; }
+.chat-area:has(.chat-empty) { justify-content: center; }
+#scr-home.active, #scr-detail.active { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+#scr-home > .period-row, #scr-home > .statusbar-desktop, #scr-home > .totals-grid,
+#scr-detail > .period-row, #scr-detail > .statusbar-desktop, #scr-detail > .top-row, #scr-detail > .detail-summary { flex-shrink: 0; }
+#scr-home > .chat-area, #scr-detail > .chat-area { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; padding-bottom: 16px; }
+#scr-home > .composer-zone { position: static; flex-shrink: 0; background: #0A0A14; }
+@media (min-width: 640px) {
+  #scr-home.active, #scr-detail.active { height: 720px; }
+}
+.chat-empty { text-align: center; color: #6E6E8C; padding: 60px 32px 40px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.chat-empty .ti { font-size: 48px; color: #4A4A66; }
+.chat-empty .title { font-size: 15px; font-weight: 600; color: #C9C9DD; margin: 0; }
+.chat-empty .subtitle { font-size: 13px; color: #6E6E8C; margin: 0; line-height: 1.5; max-width: 240px; }
+.chat-empty .examples { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.chat-empty .example { display: inline-block; background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.08); padding: 6px 12px; border-radius: 999px; font-size: 12px; color: #8C8CA8; font-family: ui-monospace, "SF Mono", Monaco, monospace; }
 .day-sep { text-align: center; font-size: 10px; color: #5A5A78; margin: 8px 0 2px; letter-spacing: 0.8px; text-transform: uppercase; font-weight: 500; }
 .bubble-row { display: flex; gap: 8px; align-items: flex-end; animation: fadeIn 0.25s ease-out; }
 .bubble-row.me-row { justify-content: flex-end; }
@@ -72,8 +97,10 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
 .composer-balance { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #C9C9DD; cursor: pointer; flex-shrink: 0; transition: transform 0.1s; font-family: inherit; }
 .composer-balance:active { transform: scale(0.92); }
 .amount-big { text-align: center; padding: 28px 0 24px; }
+.amount-wrap { display: inline-flex; align-items: baseline; justify-content: center; gap: 6px; width: 100%; }
+.amount-currency { font-size: 32px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: -0.5px; }
 .amount-label { font-size: 11px; color: #6E6E8C; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; margin-bottom: 8px; }
-.amount-input { width: 100%; border: none; background: transparent; color: #FFF; font-size: 48px; font-weight: 700; letter-spacing: -1.5px; text-align: center; outline: none; font-family: inherit; padding: 0; }
+.amount-input { border: none; background: transparent; color: #FFF; font-size: 48px; font-weight: 700; letter-spacing: -1.5px; text-align: right; outline: none; font-family: inherit; padding: 0; width: auto; min-width: 80px; field-sizing: content; }
 .amount-input::placeholder { color: rgba(255,255,255,0.2); }
 .form-field { background: rgba(255,255,255,0.04); border-radius: 14px; padding: 13px 16px; margin: 0 18px 10px; display: flex; align-items: center; gap: 14px; }
 .form-field-content { flex: 1; min-width: 0; }
@@ -86,7 +113,8 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
 .payer-seg { flex: 1; padding: 12px; border-radius: 9px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13.5px; font-weight: 500; cursor: pointer; border: 0.5px solid transparent; color: #6E6E8C; transition: all 0.15s; font-family: inherit; background: transparent; }
 .payer-seg .av-mini { opacity: 0.5; transition: opacity 0.15s; }
 .payer-seg.active .av-mini { opacity: 1; }
-.cta-save { background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); border-radius: 16px; padding: 16px; text-align: center; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 24px rgba(123,91,255,0.35); border: none; color: #FFF; cursor: pointer; margin: 14px 18px 0; transition: transform 0.1s; }
+.cta-save { display: block; width: calc(100% - 36px); background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); border-radius: 16px; padding: 16px; text-align: center; font-size: 15px; font-weight: 600; box-shadow: 0 8px 24px rgba(123,91,255,0.35); border: none; color: #FFF; cursor: pointer; margin: 14px 18px 0; transition: transform 0.1s; font-family: inherit; }
+.cta-save-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .cta-save:active { transform: scale(0.98); }
 .group-card { background: rgba(255,255,255,0.04); border-radius: 16px; padding: 16px; margin: 0 18px 12px; }
 .gc-split { display: flex; gap: 16px; padding-bottom: 14px; }
@@ -108,7 +136,11 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
 .bal-final-label { font-size: 11px; opacity: 0.9; margin-bottom: 4px; font-weight: 500; }
 .bal-final-amount { font-size: 28px; font-weight: 700; letter-spacing: -0.8px; line-height: 1; }
 .bal-final-amount .cents { font-size: 18px; opacity: 0.75; }
-.settle-cta { display: block; width: calc(100% - 36px); background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); border: none; border-radius: 16px; padding: 16px; text-align: center; font-size: 15px; font-weight: 600; color: #FFF; cursor: pointer; margin: 8px 18px 20px; font-family: inherit; box-shadow: 0 8px 24px rgba(123,91,255,0.35); }
+.bal-final-explain { font-size: 11.5px; opacity: 0.8; margin: 8px 0 0; line-height: 1.4; font-weight: 400; }
+.bal-final-explain:empty { display: none; }
+.settle-cta { display: block; width: calc(100% - 36px); background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 14px; text-align: center; font-size: 14px; font-weight: 500; color: #FFF; cursor: pointer; margin: 8px 18px 20px; font-family: inherit; transition: transform 0.1s; }
+.settle-cta:active { transform: scale(0.98); }
+.settle-cta:disabled { opacity: 0.4; cursor: not-allowed; }
 .settle-cta-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .history-list { padding: 0 18px; }
 .history-empty { text-align: center; color: #5A5A78; font-size: 13px; padding: 40px 20px; }
@@ -150,9 +182,9 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
 <body>
 <div class="proto-shell">
   <div class="phone">
-    <div class="notch"></div>
+    <div class="notch-desktop"></div>
     <div class="scr active" id="scr-home">
-      <div class="statusbar"><span id="clock">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
+      <div class="statusbar-desktop"><span id="clock">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
       <div class="period-row" style="margin-top: 8px;"><div class="period-pill"><i class="ti" style="font-size:11px">calendar_today</i> <span id="period-text">—</span></div></div>
       <div class="totals-grid">
         <div class="total-card her" id="home-card-her">
@@ -166,7 +198,7 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
       </div>
       <div class="chat-area" id="chat-area"></div>
       <div class="composer-zone">
-        <div class="preview-bar" id="preview-bar"><span class="preview-hint">Ex&nbsp;: <code>27 carrefour</code> · <code>e: 8,40 boulangerie</code></span></div>
+        <div class="preview-bar" id="preview-bar"><span class="preview-hint">Ex&nbsp;: <code>27 carrefour</code> · <code>a: 8,40 boulangerie</code></span></div>
         <div class="composer-row">
           <div class="composer-input-wrap">
             <button class="composer-plus-inline" id="btn-add" aria-label="Formulaire complet"><i class="ti">add</i></button>
@@ -177,7 +209,7 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
       </div>
     </div>
     <div class="scr" id="scr-add">
-      <div class="statusbar"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
+      <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
       <div class="top-row">
         <button class="menu-dot" id="btn-close-add"><i class="ti">close</i></button>
         <h2 class="screen-title" id="add-title">Nouvelle dépense</h2>
@@ -185,10 +217,9 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
       </div>
       <div class="amount-big">
         <p class="amount-label">Montant</p>
-        <input class="amount-input" id="input-amount" type="text" inputmode="decimal" placeholder="0,00">
+        <div class="amount-wrap"><input class="amount-input" id="input-amount" type="text" inputmode="decimal" placeholder="0,00" size="5"><span class="amount-currency">€</span></div>
       </div>
       <div class="form-field">
-        <i class="ti form-icon">edit</i>
         <div class="form-field-content"><div class="form-label">Libellé</div><input class="form-input" id="input-label" type="text" placeholder="Carrefour, EDF…"></div>
       </div>
       <p class="payer-section-label">Payé par</p>
@@ -200,10 +231,10 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
         <i class="ti form-icon">calendar_today</i>
         <div class="form-field-content"><div class="form-label">Date</div><input class="form-input" id="input-date" type="date"></div>
       </div>
-      <button class="cta-save" id="btn-save"><i class="ti">check</i> Enregistrer</button>
+      <button class="cta-save" id="btn-save"><span class="cta-save-inner"><i class="ti">check</i> Enregistrer</span></button>
     </div>
     <div class="scr" id="scr-balance">
-      <div class="statusbar"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
+      <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
       <div class="top-row">
         <button class="menu-dot" id="btn-close-balance"><i class="ti">arrow_back</i></button>
         <h2 class="screen-title" id="balance-screen-title">Solde courant</h2>
@@ -225,14 +256,14 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
             <div class="gc-split-col right" style="cursor:default"><div class="gc-head right">Ta part · 55 % <div class="av-mini me sm">P</div></div><div class="gc-val right" id="share-me">0,00 €</div></div>
           </div>
           <div class="gc-divider"></div>
-          <div class="bal-final-card" id="bal-card"><div class="gc-center"><p class="bal-final-label" id="bal-label">Solde équilibré</p><p class="bal-final-amount" id="bal-amount">0,00<span class="cents"> €</span></p></div></div>
+          <div class="bal-final-card" id="bal-card"><div class="gc-center"><p class="bal-final-label" id="bal-label">Solde équilibré</p><p class="bal-final-amount" id="bal-amount">0,00<span class="cents"> €</span></p><p class="bal-final-explain" id="bal-explain"></p></div></div>
         </div>
         <button class="settle-cta" id="btn-settle"><span class="settle-cta-inner"><i class="ti">check</i> Clôturer cette période</span></button>
       </div>
       <div id="tab-history" style="display:none"><div class="history-list" id="history-list"><div class="history-empty">Aucun règlement clôturé pour l'instant.</div></div></div>
     </div>
     <div class="scr" id="scr-detail">
-      <div class="statusbar"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
+      <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
       <div class="top-row">
         <button class="menu-dot" id="btn-close-detail"><i class="ti">arrow_back</i></button>
         <h2 class="screen-title" id="detail-title">Dépenses</h2>
@@ -270,31 +301,41 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
 (function() {
   const state = { expenses: [], settlements: [], periodStart: null, editingId: null, pendingDeleteId: null, currentPayer: 'me', currentTab: 'current', detailPayer: null, returnToScreen: 'home' };
   const today = new Date();
-  const fmt = d => d.toISOString().split('T')[0];
+  const fmt = d => { const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return y + '-' + m + '-' + day; };
   const daysAgo = n => { const d = new Date(today); d.setDate(d.getDate() - n); return fmt(d); };
-  state.periodStart = daysAgo(8);
-  state.expenses = [
-    { id: 1, date: daysAgo(0), amount: 4230, label: 'Carrefour', payer: 'me' },
-    { id: 2, date: daysAgo(0), amount: 840, label: 'Boulangerie', payer: 'her' },
-    { id: 3, date: daysAgo(2), amount: 8900, label: 'EDF', payer: 'me' },
-    { id: 4, date: daysAgo(3), amount: 3115, label: 'Naturalia', payer: 'her' },
-    { id: 5, date: daysAgo(5), amount: 6850, label: 'Total Energies', payer: 'me' },
-    { id: 6, date: daysAgo(6), amount: 1490, label: 'Pharmacie', payer: 'her' },
-    { id: 7, date: daysAgo(7), amount: 2230, label: 'Monoprix', payer: 'me' }
-  ];
-  let nextId = 8;
+  state.periodStart = fmt(today);
+  state.expenses = [];
+  let nextId = 1;
   const fmtMoney = c => (c / 100).toFixed(2).replace('.', ',') + ' €';
-  const fmtDay = iso => { const d = new Date(iso); const m = ['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc']; return d.getDate() + ' ' + m[d.getMonth()]; };
+  const fmtDay = iso => { const [y,mo,d] = iso.split('-').map(Number); const m = ['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc']; return d + ' ' + m[mo-1]; };
   const dayLabel = iso => iso === fmt(today) ? "Aujourd'hui" : iso === daysAgo(1) ? "Hier" : fmtDay(iso);
   const parseCents = s => s ? Math.round(parseFloat(s.replace(',', '.').replace(/[^0-9.]/g, '')) * 100) || 0 : 0;
   const escapeHtml = s => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   const pluralExp = n => n + (n > 1 ? ' dépenses' : ' dépense');
+  const periodLabel = (expenses) => {
+    const list = expenses || [];
+    if (list.length === 0) {
+      const dd = Math.floor((today - new Date(state.periodStart)) / 86400000);
+      if (dd === 0) return "Depuis aujourd'hui";
+      if (dd === 1) return 'Depuis hier · 1 jour';
+      return 'Depuis le ' + fmtDay(state.periodStart) + ' · ' + dd + ' jours';
+    }
+    const dates = list.map(e => e.date).sort();
+    const first = dates[0], last = dates[dates.length - 1];
+    if (first === last) {
+      // Toutes les dépenses sur la même date
+      if (first === fmt(today)) return "Aujourd'hui";
+      if (first === daysAgo(1)) return 'Hier';
+      return 'Le ' + fmtDay(first);
+    }
+    return 'Du ' + fmtDay(first) + ' au ' + fmtDay(last);
+  };
 
   function parseExpense(text) {
     let s = text.trim();
     if (!s) return null;
     let payer = 'me', date = fmt(today), dateLabel = "Aujourd'hui", amount = null, label = '';
-    const pm = s.match(/^(elle|e|m)\s*[:.]?\s+/i);
+    const pm = s.match(/^(audrey|elle|a|e|m)\s*[:.]?\s+/i);
     if (pm) { payer = 'her'; s = s.substring(pm[0].length); }
     const lower = s.toLowerCase();
     if (/\b(aujourd'hui|aujourdhui|auj)\b/.test(lower)) s = s.replace(/\b(aujourd'hui|aujourdhui|auj)\b/i, '').trim();
@@ -321,7 +362,7 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
     const text = document.getElementById('composer-input').value;
     const p = parseExpense(text);
     const bar = document.getElementById('preview-bar');
-    if (!text.trim()) { bar.className = 'preview-bar'; bar.innerHTML = '<span class="preview-hint">Ex&nbsp;: <code>27 carrefour</code> · <code>e: 8,40 boulangerie</code></span>'; return; }
+    if (!text.trim()) { bar.className = 'preview-bar'; bar.innerHTML = '<span class="preview-hint">Ex&nbsp;: <code>27 carrefour</code> · <code>a: 8,40 boulangerie</code></span>'; return; }
     if (!p || !p.valid) { bar.className = 'preview-bar'; bar.innerHTML = '<span class="preview-hint">Il manque un montant…</span>'; return; }
     bar.className = 'preview-bar ' + (p.payer === 'me' ? 'valid' : 'valid-her');
     const pn = p.payer === 'me' ? 'Pierre' : 'Audrey', pi = p.payer === 'me' ? 'P' : 'A';
@@ -363,16 +404,23 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
     document.getElementById('total-her').textContent = fmtMoney(herT);
     document.getElementById('count-me').textContent = pluralExp(active.filter(e => e.payer === 'me').length);
     document.getElementById('count-her').textContent = pluralExp(active.filter(e => e.payer === 'her').length);
-    const dd = Math.floor((today - new Date(state.periodStart)) / 86400000);
-    document.getElementById('period-text').textContent = 'Depuis le ' + fmtDay(state.periodStart) + ' · ' + dd + ' jours';
+    document.getElementById('period-text').textContent = periodLabel(active);
     renderBubbles(document.getElementById('chat-area'), active, null);
   }
 
   function renderBubbles(container, expenses, filterPayer) {
     container.innerHTML = '';
     const filtered = filterPayer ? expenses.filter(e => e.payer === filterPayer) : expenses;
-    if (filtered.length === 0) { container.innerHTML = '<div class="chat-empty">Aucune dépense pour le moment.</div>'; return; }
-    const sorted = [...filtered].sort((a, b) => a.date !== b.date ? b.date.localeCompare(a.date) : b.id - a.id);
+    if (filtered.length === 0) {
+      if (filterPayer) {
+        const name = filterPayer === 'me' ? 'Pierre' : 'Audrey';
+        container.innerHTML = '<div class="chat-empty"><i class="ti">receipt_long</i><p class="title">Aucune dépense de ' + name + '</p><p class="subtitle">Les dépenses ajoutées pour cette personne apparaîtront ici.</p></div>';
+      } else {
+        container.innerHTML = '<div class="chat-empty"><i class="ti">chat_bubble_outline</i><p class="title">Aucune dépense pour le moment</p><p class="subtitle">Tape ta première dépense dans la barre ci-dessous.</p><div class="examples"><span class="example">27 carrefour</span><span class="example">a: 8,40 boulangerie</span></div></div>';
+      }
+      return;
+    }
+    const sorted = [...filtered].sort((a, b) => a.date !== b.date ? a.date.localeCompare(b.date) : a.id - b.id);
     let lastDate = null;
     sorted.forEach(e => {
       if (e.date !== lastDate) { const sep = document.createElement('div'); sep.className = 'day-sep'; sep.textContent = dayLabel(e.date); container.appendChild(sep); lastDate = e.date; }
@@ -385,6 +433,8 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
       container.appendChild(row);
     });
     container.querySelectorAll('.bubble').forEach(b => attachLongPress(b, +b.dataset.expenseId));
+    // Scroll to bottom to show the most recent expense
+    requestAnimationFrame(() => { container.scrollTop = container.scrollHeight; });
   }
 
   function openBubbleSheet(id) {
@@ -512,13 +562,27 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
     document.getElementById('share-me').textContent = fmtMoney(meS);
     document.getElementById('share-her').textContent = fmtMoney(herS);
     document.getElementById('bal-total').textContent = fmtMoney(total);
-    const dd = Math.floor((today - new Date(state.periodStart)) / 86400000);
-    document.getElementById('bal-period-pill').textContent = 'Depuis le ' + fmtDay(state.periodStart) + ' · ' + dd + ' jours';
+    document.getElementById('bal-period-pill').textContent = periodLabel(active);
     const card = document.getElementById('bal-card');
+    const explain = document.getElementById('bal-explain');
     card.classList.remove('her-owes', 'zero');
-    if (diff > 0) { document.getElementById('bal-label').textContent = 'Audrey te doit'; document.getElementById('bal-amount').innerHTML = (diff/100).toFixed(2).split('.')[0] + ',<span class="cents">' + ((diff/100).toFixed(2).split('.')[1] || '00') + ' €</span>'; }
-    else if (diff < 0) { card.classList.add('her-owes'); document.getElementById('bal-label').textContent = 'Tu dois à Audrey'; document.getElementById('bal-amount').innerHTML = (-diff/100).toFixed(2).split('.')[0] + ',<span class="cents">' + ((-diff/100).toFixed(2).split('.')[1] || '00') + ' €</span>'; }
-    else { card.classList.add('zero'); document.getElementById('bal-label').textContent = 'Solde équilibré'; document.getElementById('bal-amount').innerHTML = '0,<span class="cents">00 €</span>'; }
+    if (diff > 0) {
+      document.getElementById('bal-label').textContent = 'Audrey te doit';
+      document.getElementById('bal-amount').innerHTML = (diff/100).toFixed(2).split('.')[0] + ',<span class="cents">' + ((diff/100).toFixed(2).split('.')[1] || '00') + ' €</span>';
+      explain.textContent = 'Sur sa part de ' + fmtMoney(herS) + ', Audrey a déjà payé ' + fmtMoney(herT) + '.';
+    }
+    else if (diff < 0) {
+      card.classList.add('her-owes');
+      document.getElementById('bal-label').textContent = 'Tu dois à Audrey';
+      document.getElementById('bal-amount').innerHTML = (-diff/100).toFixed(2).split('.')[0] + ',<span class="cents">' + ((-diff/100).toFixed(2).split('.')[1] || '00') + ' €</span>';
+      explain.textContent = 'Sur ta part de ' + fmtMoney(meS) + ', tu as déjà payé ' + fmtMoney(meT) + '.';
+    }
+    else {
+      card.classList.add('zero');
+      document.getElementById('bal-label').textContent = 'Solde équilibré';
+      document.getElementById('bal-amount').innerHTML = '0,<span class="cents">00 €</span>';
+      explain.textContent = total === 0 ? '' : 'Chacun a payé sa juste part.';
+    }
     document.getElementById('btn-settle').disabled = total === 0;
   }
 
@@ -575,8 +639,7 @@ body { margin: 0; padding: 20px; background: #1A1A26; min-height: 100vh; display
     document.getElementById('detail-count').textContent = pluralExp(active.length);
     document.getElementById('detail-amount').textContent = fmtMoney(total);
     document.getElementById('detail-summary').className = 'detail-summary ' + p;
-    const dd = Math.floor((today - new Date(state.periodStart)) / 86400000);
-    document.getElementById('detail-period-pill').textContent = 'Depuis le ' + fmtDay(state.periodStart) + ' · ' + dd + ' jours';
+    document.getElementById('detail-period-pill').textContent = periodLabel(active);
     renderBubbles(document.getElementById('detail-chat-area'), state.expenses.filter(e => !e.settled), p);
   }
 
