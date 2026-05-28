@@ -6,17 +6,23 @@
 <meta name="theme-color" content="#0A0A14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Couple Expenses — Prototype v5</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block">
+<title>Koople</title>
+<meta name="application-name" content="Koople">
+<meta name="apple-mobile-web-app-title" content="Koople">
+
 <style>
-.ti { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased; font-variation-settings: 'opsz' 24, 'wght' 400, 'FILL' 0, 'GRAD' 0; vertical-align: middle; }
+.ti { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; width: 1em; height: 1em; line-height: 1; font-size: 24px; color: currentColor; }
+.ti svg { width: 100%; height: 100%; fill: currentColor; display: block; }
 body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height: 100dvh; color: #FFF; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; overscroll-behavior: none; }
 .proto-shell { width: 100%; min-height: 100vh; min-height: 100dvh; }
 .phone { background: #0A0A14; min-height: 100vh; min-height: 100dvh; position: relative; overflow: hidden; }
-.scr { color: #FFF; min-height: 100vh; min-height: 100dvh; position: relative; display: none; padding-top: env(safe-area-inset-top, 0); padding-bottom: env(safe-area-inset-bottom, 0); }
+.scr { color: #FFF; min-height: 100vh; min-height: 100dvh; position: relative; display: none; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 .scr.active { display: block; }
+.scr.screen-enter { animation: screenIn 0.3s cubic-bezier(0.32, 0.72, 0, 1) both; }
+@keyframes screenIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
 @media (min-width: 640px) {
   body { padding: 20px; background: #1A1A26; display: flex; align-items: flex-start; justify-content: center; }
   .proto-shell { max-width: 380px; min-height: 0; padding: 1rem 0; }
@@ -28,7 +34,7 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 .notch-desktop { display: none; width: 80px; height: 22px; background: #000; border-radius: 0 0 16px 16px; margin: 0 auto 6px; }
 .statusbar-desktop { display: none; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 600; opacity: 0.9; margin: 0 22px 16px; padding: 0 4px; }
 .statusbar-desktop .right { display: flex; gap: 4px; align-items: center; font-size: 10px; }
-.top-row { display: flex; justify-content: space-between; align-items: center; margin: 0 18px 14px; }
+.top-row { display: flex; justify-content: space-between; align-items: center; margin: 0 18px 14px; padding-top: 14px; }
 .av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; color: #FFF; cursor: pointer; }
 .av-me-grad { background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); }
 .menu-dot { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #FFF; cursor: pointer; border: none; font-family: inherit; }
@@ -37,6 +43,12 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 .period-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); padding: 5px 11px; border-radius: 999px; font-size: 10.5px; color: #8C8CA8; font-weight: 500; }
 .period-row { display: flex; justify-content: center; margin: 0 18px 14px; }
 .totals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 18px 14px; }
+.home-header { position: relative; padding: 0 18px 10px; }
+.home-top-row { margin-bottom: 0 !important; padding-top: 10px; padding-bottom: 6px; }
+.totals-merged { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; position: relative; }
+.merge-balance-btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; width: 42px; height: 42px; border-radius: 50%; background: radial-gradient(circle at 50% 22%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%), linear-gradient(135deg, #7B5BFF 0%, #FF6B9D 100%); border: none; display: flex; align-items: center; justify-content: center; font-size: 19px; color: #FFF; cursor: pointer; transition: transform 0.12s, filter 0.15s, box-shadow 0.15s; font-family: inherit; box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 -2px 5px rgba(0,0,0,0.3) inset, 0 2px 0 rgba(80,40,120,0.5), 0 4px 0 rgba(60,30,90,0.35), 0 6px 14px rgba(0,0,0,0.35); }
+.merge-balance-btn:active { transform: translate(-50%, -50%) translateY(2px) scale(0.96); filter: brightness(1.05); box-shadow: 0 1px 0 rgba(255,255,255,0.3) inset, 0 -1px 3px rgba(0,0,0,0.25) inset, 0 1px 0 rgba(80,40,120,0.5), 0 2px 0 rgba(60,30,90,0.35), 0 3px 8px rgba(0,0,0,0.35); }
+.merge-balance-btn .ti { font-size: 19px; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3)); }
 .total-card { padding: 10px 14px; border-radius: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: transform 0.1s; }
 .total-card:active { transform: scale(0.97); }
 .total-card.me { background: linear-gradient(135deg, rgba(123,91,255,0.18) 0%, rgba(79,123,255,0.18) 100%); border: 0.5px solid rgba(123,91,255,0.35); flex-direction: row-reverse; text-align: right; }
@@ -46,74 +58,158 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 .av-mini.her { background: linear-gradient(135deg, #FF6B9D 0%, #FF8A5B 100%); }
 .av-mini.sm { width: 18px; height: 18px; font-size: 9px; }
 .total-info { flex: 1; min-width: 0; }
-.total-name { font-size: 10.5px; font-weight: 500; line-height: 1; margin-bottom: 4px; }
+.total-header { display: flex; align-items: baseline; gap: 6px; line-height: 1; margin-bottom: 5px; }
+.total-card.me .total-header { flex-direction: row-reverse; }
+.total-card.me .total-count::before { content: ""; }
+.total-card.me .total-count::after { content: " ·"; opacity: 0.6; }
+.total-name { font-size: 11px; font-weight: 500; }
 .total-card.me .total-name { color: #C9BCFF; }
 .total-card.her .total-name { color: #FFB4D1; }
+.total-count { font-size: 10px; color: #9595B0; }
+.total-count::before { content: "· "; opacity: 0.6; }
 .total-amount { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.1; }
-.total-count { font-size: 10px; color: #6E6E8C; margin-top: 2px; }
 .chat-area { display: flex; flex-direction: column; gap: 8px; padding: 0 18px 16px; }
 .chat-area:has(.chat-empty) { justify-content: center; }
 #scr-home.active, #scr-detail.active { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
-#scr-home > .period-row, #scr-home > .statusbar-desktop, #scr-home > .totals-grid,
+#scr-home > .statusbar-desktop, #scr-home > .home-top-row, #scr-home > .home-header,
 #scr-detail > .period-row, #scr-detail > .statusbar-desktop, #scr-detail > .top-row, #scr-detail > .detail-summary { flex-shrink: 0; }
 #scr-home > .chat-area, #scr-detail > .chat-area { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; padding-bottom: 16px; }
 #scr-home > .composer-zone { position: static; flex-shrink: 0; background: #0A0A14; }
 @media (min-width: 640px) {
   #scr-home.active, #scr-detail.active { height: 720px; }
 }
-.chat-empty { text-align: center; color: #6E6E8C; padding: 60px 32px 40px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
-.chat-empty .ti { font-size: 48px; color: #4A4A66; }
+.chat-empty { text-align: center; color: #9595B0; padding: 60px 32px 40px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.chat-empty .ti { font-size: 48px; color: #7A7A95; }
 .chat-empty .title { font-size: 15px; font-weight: 600; color: #C9C9DD; margin: 0; }
-.chat-empty .subtitle { font-size: 13px; color: #6E6E8C; margin: 0; line-height: 1.5; max-width: 240px; }
+.chat-empty .subtitle { font-size: 13px; color: #9595B0; margin: 0; line-height: 1.5; max-width: 240px; }
 .chat-empty .examples { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
 .chat-empty .example { display: inline-block; background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.08); padding: 6px 12px; border-radius: 999px; font-size: 12px; color: #8C8CA8; font-family: ui-monospace, "SF Mono", Monaco, monospace; }
-.day-sep { text-align: center; font-size: 10px; color: #5A5A78; margin: 8px 0 2px; letter-spacing: 0.8px; text-transform: uppercase; font-weight: 500; }
-.bubble-row { display: flex; gap: 8px; align-items: flex-end; animation: fadeIn 0.25s ease-out; }
+.day-sep { text-align: center; font-size: 10px; color: #8C8CA8; margin: 8px 0 2px; letter-spacing: 0.8px; text-transform: uppercase; font-weight: 500; }
+.period-banner { position: sticky; top: 0; z-index: 5; text-align: center; padding: 0 0 6px; margin: 0 -18px 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.3px; background: linear-gradient(180deg, #0A0A14 0%, #0A0A14 70%, rgba(10,10,20,0) 100%); }
+.period-banner-inner { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.08); }
+.period-banner.level-1 .period-banner-inner { color: #8C8CA8; }
+.period-banner.level-2 .period-banner-inner { color: #C9C9DD; background: rgba(255,255,255,0.08); }
+.period-banner.level-3 .period-banner-inner { color: #FFB47A; background: rgba(255,180,122,0.12); border-color: rgba(255,180,122,0.25); font-weight: 600; }
+.period-banner .ti { font-size: 12px; }
+.chat-empty .period-banner { position: static; margin: 0 0 12px; background: transparent; }
+.bubble-row { display: flex; gap: 8px; align-items: flex-end; }
 .bubble-row.me-row { justify-content: flex-end; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-.bubble { max-width: 72%; padding: 10px 13px; border-radius: 18px; position: relative; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; transition: transform 0.15s; }
+.bubble.read-only { cursor: default; }
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.85); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes bubbleOut {
+  from { opacity: 1; transform: scale(1); max-height: 100px; }
+  to { opacity: 0; transform: scale(0.85); max-height: 0; margin: 0; padding-top: 0; padding-bottom: 0; }
+}
+.bubble-row.just-added .bubble,
+.bubble-row.just-added .av-mini {
+  animation: bubbleIn 0.4s cubic-bezier(0.32, 0.72, 0, 1) both;
+  transform-origin: bottom center;
+}
+.bubble-row.just-added .av-mini { animation-delay: 0.08s; }
+.bubble-row.removing { animation: bubbleOut 0.22s ease-in forwards; overflow: hidden; }
 .bubble.me { background: linear-gradient(135deg, #7B5BFF 0%, #5A6FFF 100%); border-bottom-right-radius: 6px; }
 .bubble.her { background: rgba(255,255,255,0.07); border-bottom-left-radius: 6px; }
-.bubble .label { font-size: 13px; font-weight: 500; line-height: 1.3; }
-.bubble .amount { font-size: 15px; font-weight: 600; margin-top: 2px; }
+.bubble { max-width: 78%; padding: 10px 14px; border-radius: 18px; position: relative; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; transition: transform 0.15s; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; min-width: 140px; }
+.bubble.read-only { cursor: default; }
+.bubble .label { font-size: 12.5px; font-weight: 500; line-height: 1.3; opacity: 0.78; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 1; }
+.bubble .amount { font-size: 15px; font-weight: 700; flex-shrink: 0; font-variant-numeric: tabular-nums; letter-spacing: -0.2px; }
 .bubble.long-pressing { transform: scale(1.05); box-shadow: 0 0 0 2px rgba(255,255,255,0.15); }
 .composer-zone { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 14px 18px; background: linear-gradient(180deg, transparent 0%, rgba(10,10,20,0.95) 30%, #0A0A14 60%); display: flex; flex-direction: column; gap: 8px; }
-.preview-bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; font-size: 11.5px; color: #8C8CA8; min-height: 32px; transition: all 0.2s; flex-wrap: wrap; }
-.preview-bar.valid { background: linear-gradient(135deg, rgba(123,91,255,0.12) 0%, rgba(79,123,255,0.12) 100%); border-color: rgba(123,91,255,0.35); color: #C9BCFF; }
-.preview-bar.valid-her { background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(255,138,91,0.1) 100%); border-color: rgba(255,107,157,0.3); color: #FFB4D1; }
+.preview-bar { display: flex; align-items: center; gap: 5px; padding: 5px 10px; min-height: 28px; transition: all 0.2s; flex-wrap: wrap; }
+.preview-bar.has-box { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; font-size: 11.5px; color: #8C8CA8; }
+.preview-bar.hint-only { padding: 2px 12px; min-height: 0; justify-content: center; }
+.preview-bar.hint-only .preview-hint { font-size: 11px; color: #8C8CA8; font-style: italic; }
+.preview-bar.hint-only code { background: transparent; padding: 0; font-size: 11px; color: #9595B0; font-style: normal; }
+.preview-bar.as-bubble { padding: 0; min-height: 0; flex-wrap: nowrap; display: flex; align-items: center; gap: 8px; background: transparent; border: none; }
+.preview-bar.as-bubble.payer-me { justify-content: flex-end; }
+.preview-bar.as-bubble.payer-her { justify-content: flex-start; }
+.preview-avatar-side { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; color: #FFF; cursor: pointer; transition: transform 0.1s, filter 0.15s; }
+.preview-avatar-side:active { transform: scale(0.9); filter: brightness(1.15); }
+.preview-avatar-side.me { background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); box-shadow: 0 2px 6px rgba(123,91,255,0.35); }
+.preview-avatar-side.her { background: linear-gradient(135deg, #FF6B9D 0%, #FF8A5B 100%); box-shadow: 0 2px 6px rgba(255,107,157,0.35); }
+.preview-bubble { display: inline-flex; align-items: center; gap: 9px; padding: 7px 13px; border-radius: 16px; cursor: pointer; transition: transform 0.12s, background 0.15s, border-color 0.15s; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; max-width: calc(100% - 60px); min-width: 0; border: 1.5px dashed rgba(255,255,255,0.18); background: transparent; }
+.preview-bubble:active { transform: scale(0.97); }
+.preview-bar.payer-me .preview-bubble { background: rgba(123,91,255,0.08); border-color: rgba(123,91,255,0.5); color: #E5DBFF; }
+.preview-bar.payer-me .preview-bubble:active { background: rgba(123,91,255,0.16); border-color: rgba(123,91,255,0.7); }
+.preview-bar.payer-her .preview-bubble { background: rgba(255,107,157,0.07); border-color: rgba(255,107,157,0.45); color: #FFD4E1; }
+.preview-bar.payer-her .preview-bubble:active { background: rgba(255,107,157,0.14); border-color: rgba(255,107,157,0.65); }
+.preview-bubble .pb-label { font-size: 13px; font-weight: 500; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 1; }
+.preview-bubble .pb-label.empty { opacity: 0.45; font-style: italic; }
+.preview-bubble .pb-amount { font-size: 14px; font-weight: 700; flex-shrink: 0; font-variant-numeric: tabular-nums; letter-spacing: -0.2px; color: #FFF; }
+.preview-bubble .pb-date { font-size: 10.5px; opacity: 0.6; flex-shrink: 0; }
 .preview-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; color: #FFF; }
 .preview-chip.amount { background: rgba(157,135,255,0.3); color: #E5DBFF; }
 .preview-chip.date { background: rgba(255,255,255,0.1); color: #C9C9DD; }
 .preview-chip.label { background: rgba(255,255,255,0.06); color: #C9C9DD; }
 .preview-chip.payer-me { background: linear-gradient(135deg, rgba(123,91,255,0.4) 0%, rgba(79,123,255,0.4) 100%); }
+.preview-payer-clickable { cursor: pointer; transition: transform 0.1s, filter 0.15s; }
+.preview-payer-clickable:active { transform: scale(0.94); filter: brightness(1.15); }
 .preview-chip.payer-her { background: linear-gradient(135deg, rgba(255,107,157,0.4) 0%, rgba(255,138,91,0.4) 100%); }
 .preview-hint { font-size: 11px; font-style: italic; opacity: 0.7; }
 .composer-row { display: flex; align-items: center; gap: 8px; }
-.composer-input-wrap { flex: 1; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.15); border-radius: 22px; padding: 6px 6px 6px 8px; display: flex; align-items: center; gap: 6px; min-height: 44px; }
-.composer-plus-inline { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #C9C9DD; cursor: pointer; flex-shrink: 0; border: none; transition: transform 0.1s, background 0.15s; font-family: inherit; }
-.composer-plus-inline:active { transform: scale(0.92); background: rgba(255,255,255,0.12); }
-.composer-input { flex: 1; background: transparent; border: none; outline: none; color: #FFF; font-family: inherit; font-size: 15px; min-width: 0; padding: 6px 4px; line-height: 1.3; }
-.composer-input::placeholder { color: #6E6E8C; }
+.composer-input-wrap { flex: 1; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.15); border-radius: 18px; padding: 4px 4px 4px 6px; display: flex; align-items: center; gap: 6px; min-height: 36px; }
+.composer-plus-inline { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #FFF; cursor: pointer; flex-shrink: 0; border: none; transition: transform 0.1s, background 0.15s; font-family: inherit; }
+.composer-plus-inline:active { transform: scale(0.92); background: rgba(255,255,255,0.18); }
+.composer-payer-inline { background: transparent; border: none; padding: 0; cursor: pointer; flex-shrink: 0; transition: transform 0.1s; font-family: inherit; display: flex; align-items: center; margin-left: -4px; margin-right: 2px; }
+.composer-payer-inline:active { transform: scale(0.92); }
+.composer-payer-inline .av-mini { width: 28px; height: 28px; font-size: 11px; }
+.composer-send-inline { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #7B5BFF 0%, #FF6B9D 100%); display: flex; align-items: center; justify-content: center; font-size: 16px; color: #FFF; cursor: pointer; flex-shrink: 0; border: none; transition: transform 0.1s; font-family: inherit; box-shadow: 0 2px 8px rgba(123,91,255,0.3), 0 2px 8px rgba(255,107,157,0.25); }
+.composer-send-inline:active { transform: scale(0.92); }
+.composer-send-inline:disabled { background: rgba(255,255,255,0.06); color: #5A5A6E; box-shadow: none; cursor: not-allowed; }
+.composer-plus-inline .ti { font-size: 20px; }
+.composer-send-inline .ti { font-size: 16px; }
+.composer-input { flex: 1; background: transparent; border: none; outline: none; color: #FFF; font-family: inherit; font-size: 14px; min-width: 0; padding: 4px 4px; line-height: 1.3; }
+.composer-input::placeholder { color: #9595B0; }
 .composer-balance { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #C9C9DD; cursor: pointer; flex-shrink: 0; transition: transform 0.1s; font-family: inherit; }
 .composer-balance:active { transform: scale(0.92); }
-.amount-big { text-align: center; padding: 28px 0 24px; }
-.amount-wrap { display: inline-flex; align-items: baseline; justify-content: center; gap: 6px; width: 100%; }
+.amount-big { text-align: center; padding: 28px 0 24px; cursor: text; }
+.amount-wrap { display: inline-flex; align-items: baseline; justify-content: center; gap: 6px; width: 100%; min-height: 60px; cursor: text; }
 .amount-currency { font-size: 32px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: -0.5px; }
-.amount-label { font-size: 11px; color: #6E6E8C; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; margin-bottom: 8px; }
+.amount-label { font-size: 11px; color: #9595B0; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; margin-bottom: 8px; }
 .amount-input { border: none; background: transparent; color: #FFF; font-size: 48px; font-weight: 700; letter-spacing: -1.5px; text-align: right; outline: none; font-family: inherit; padding: 0; width: auto; min-width: 80px; field-sizing: content; }
 .amount-input::placeholder { color: rgba(255,255,255,0.2); }
 .form-field { background: rgba(255,255,255,0.04); border-radius: 14px; padding: 13px 16px; margin: 0 18px 10px; display: flex; align-items: center; gap: 14px; }
 .form-field-content { flex: 1; min-width: 0; }
-.form-label { font-size: 10.5px; color: #6E6E8C; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin-bottom: 3px; }
+.form-label { font-size: 10.5px; color: #9595B0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin-bottom: 3px; }
 .form-input { width: 100%; background: transparent; border: none; color: #FFF; font-size: 15px; font-weight: 500; outline: none; font-family: inherit; padding: 0; }
-.form-input::placeholder { color: #4A4A66; }
-.form-icon { color: #6E6E8C; font-size: 18px; }
-.payer-section-label { font-size: 10.5px; color: #6E6E8C; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin: 4px 22px 8px; }
+.form-input::placeholder { color: #7A7A95; }
+.form-icon { color: #9595B0; font-size: 18px; }
+.payer-section-label { font-size: 10.5px; color: #9595B0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin: 4px 22px 8px; }
 .payer-toggle { display: flex; gap: 4px; background: rgba(255,255,255,0.04); border-radius: 12px; padding: 4px; margin: 0 18px 10px; }
-.payer-seg { flex: 1; padding: 12px; border-radius: 9px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13.5px; font-weight: 500; cursor: pointer; border: 0.5px solid transparent; color: #6E6E8C; transition: all 0.15s; font-family: inherit; background: transparent; }
+.bulk-content { padding: 0 18px; }
+.bulk-section-label { font-size: 10.5px; color: #9595B0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin: 4px 0 8px; padding-left: 4px; }
+.bulk-content > .payer-toggle { margin: 0 0 14px; }
+.bulk-textarea { width: 100%; background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px 14px; color: #FFF; font-family: inherit; font-size: 14px; line-height: 1.5; resize: vertical; min-height: 120px; outline: none; box-sizing: border-box; transition: border-color 0.15s, background 0.15s; }
+.bulk-textarea:focus { border-color: rgba(123,91,255,0.5); background: rgba(255,255,255,0.06); }
+.bulk-textarea::placeholder { color: #8C8CA8; }
+.bulk-hint { font-size: 11px; color: #9595B0; margin: 8px 4px 14px; line-height: 1.4; }
+.bulk-hint code { background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 4px; font-size: 10.5px; font-family: ui-monospace, "SF Mono", Monaco, monospace; color: #C9C9DD; }
+.bulk-preview { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.bulk-preview:empty { display: none; }
+.bulk-preview-header { font-size: 10.5px; color: #9595B0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin: 4px 0 6px; padding-left: 4px; }
+.bulk-line { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.06); font-size: 12.5px; }
+.bulk-line.ok { background: rgba(123,255,160,0.04); border-color: rgba(123,255,160,0.15); }
+.bulk-line.err { background: rgba(255,107,107,0.05); border-color: rgba(255,107,107,0.2); color: #FFB4B4; }
+.bulk-line .status-icon { width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.bulk-line.ok .status-icon { color: #80E0AC; }
+.bulk-line.err .status-icon { color: #FF8A8A; }
+.bulk-line .label-part { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; color: #C9C9DD; }
+.bulk-line.err .label-part { color: #FFB4B4; }
+.bulk-line .amount-part { font-weight: 600; flex-shrink: 0; font-variant-numeric: tabular-nums; color: #FFF; }
+.bulk-line .date-part { font-size: 10.5px; color: #9595B0; flex-shrink: 0; }
+.bulk-line .err-msg { font-size: 11px; opacity: 0.8; flex-shrink: 0; }
+.payer-seg { flex: 1; padding: 12px; border-radius: 9px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13.5px; font-weight: 500; cursor: pointer; border: 0.5px solid transparent; color: #9595B0; transition: all 0.15s; font-family: inherit; background: transparent; }
 .payer-seg .av-mini { opacity: 0.5; transition: opacity 0.15s; }
 .payer-seg.active .av-mini { opacity: 1; }
-.cta-save { display: block; width: calc(100% - 36px); background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); border-radius: 16px; padding: 16px; text-align: center; font-size: 15px; font-weight: 600; box-shadow: 0 8px 24px rgba(123,91,255,0.35); border: none; color: #FFF; cursor: pointer; margin: 14px 18px 0; transition: transform 0.1s; font-family: inherit; }
+.cta-save { display: block; width: calc(100% - 36px); background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); border-radius: 16px; padding: 16px; text-align: center; font-size: 15px; font-weight: 600; box-shadow: 0 8px 24px rgba(123,91,255,0.35); border: none; color: #FFF; cursor: pointer; margin: 14px 18px 0; transition: transform 0.1s, opacity 0.15s, box-shadow 0.15s; font-family: inherit; }
+.cta-save:disabled { opacity: 0.4; box-shadow: none; cursor: not-allowed; }
+.cta-delete { display: flex; align-items: center; justify-content: center; gap: 8px; width: calc(100% - 36px); background: transparent; border: none; padding: 14px; font-size: 14px; font-weight: 500; color: #FF8A8A; cursor: pointer; margin: 8px 18px 0; font-family: inherit; border-radius: 12px; transition: transform 0.1s, background 0.15s; }
+.cta-delete:active { transform: scale(0.98); background: rgba(255,107,107,0.08); }
+.cta-delete .ti { font-size: 18px; }
 .cta-save-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .cta-save:active { transform: scale(0.98); }
 .group-card { background: rgba(255,255,255,0.04); border-radius: 16px; padding: 16px; margin: 0 18px 12px; }
@@ -125,14 +221,21 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 .gc-head.right { justify-content: flex-end; }
 .gc-val { font-size: 17px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .gc-val.right { justify-content: flex-end; }
-.gc-chevron { font-size: 14px; color: #6E6E8C; }
+.gc-chevron { font-size: 14px; color: #9595B0; }
 .gc-divider { height: 0.5px; background: rgba(255,255,255,0.08); margin-bottom: 14px; }
 .gc-center { text-align: center; }
-.gc-center-label { font-size: 10.5px; color: #6E6E8C; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin-bottom: 6px; }
+.gc-center-label { font-size: 10.5px; color: #9595B0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin-bottom: 6px; }
 .gc-center-val { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-.bal-final-card { background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); border-radius: 16px; padding: 18px 16px; }
+.bal-final-card { background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); border-radius: 16px; padding: 18px 16px; cursor: pointer; transition: transform 0.1s, opacity 0.15s; -webkit-tap-highlight-color: transparent; }
+.bal-final-card:active { transform: scale(0.98); opacity: 0.9; }
+.bal-final-card.zero { background: linear-gradient(135deg, #7A7A95 0%, #2C2C44 100%); cursor: default; }
+.bal-final-card.zero:active { transform: none; opacity: 1; }
 .bal-final-card.her-owes { background: linear-gradient(135deg, #FF6B9D 0%, #FF8A5B 100%); }
-.bal-final-card.zero { background: linear-gradient(135deg, #4A4A66 0%, #2C2C44 100%); }
+.settlement-chat-wrap { margin-top: 8px; }
+.settlement-section-title { font-size: 10.5px; color: #9595B0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin: 0 22px 8px; }
+.toast { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%) translateY(20px); background: rgba(20,20,42,0.95); color: #FFF; padding: 12px 18px; border-radius: 14px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.4); border: 0.5px solid rgba(255,255,255,0.1); opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.25s; z-index: 1000; display: flex; align-items: center; gap: 8px; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast .ti { color: #80E0AC; font-size: 18px; }
 .bal-final-label { font-size: 11px; opacity: 0.9; margin-bottom: 4px; font-weight: 500; }
 .bal-final-amount { font-size: 28px; font-weight: 700; letter-spacing: -0.8px; line-height: 1; }
 .bal-final-amount .cents { font-size: 18px; opacity: 0.75; }
@@ -143,13 +246,15 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 .settle-cta:disabled { opacity: 0.4; cursor: not-allowed; }
 .settle-cta-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .history-list { padding: 0 18px; }
-.history-empty { text-align: center; color: #5A5A78; font-size: 13px; padding: 40px 20px; }
-.history-item { background: rgba(255,255,255,0.04); border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+.history-empty { text-align: center; color: #8C8CA8; font-size: 13px; padding: 40px 20px; }
+.history-item { background: rgba(255,255,255,0.04); border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.1s, background 0.15s; }
+.history-item:active { transform: scale(0.98); background: rgba(255,255,255,0.06); }
+.history-direction.zero { background: rgba(255,255,255,0.08); color: #8C8CA8; }
 .history-direction { width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .history-direction.to-me { background: linear-gradient(135deg, rgba(123,91,255,0.25) 0%, rgba(79,123,255,0.25) 100%); color: #C9BCFF; }
 .history-direction.to-her { background: linear-gradient(135deg, rgba(255,107,157,0.2) 0%, rgba(255,138,91,0.2) 100%); color: #FFB4D1; }
 .history-main { flex: 1; }
-.history-date { font-size: 11px; color: #6E6E8C; margin-bottom: 2px; }
+.history-date { font-size: 11px; color: #9595B0; margin-bottom: 2px; }
 .history-period { font-size: 13px; font-weight: 500; }
 .history-amount { font-size: 14px; font-weight: 600; }
 .history-amount.to-me { color: #C9BCFF; }
@@ -160,40 +265,75 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 .ds-info { display: flex; align-items: center; gap: 10px; }
 .ds-count { font-size: 12px; color: #8C8CA8; }
 .ds-amount { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
-.action-sheet-bg { position: absolute; inset: 0; background: rgba(0,0,0,0.55); z-index: 100; display: none; align-items: flex-end; border-radius: 32px; overflow: hidden; }
-.action-sheet-bg.open { display: flex; }
-.action-sheet { width: 100%; background: #14142A; border-radius: 24px 24px 0 0; padding: 20px 18px 24px; }
+.action-sheet-bg { position: absolute; inset: 0; background: rgba(0,0,0,0); z-index: 100; display: flex; align-items: flex-end; border-radius: 32px; overflow: hidden; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s ease, visibility 0s linear 0.2s, background 0.2s ease; }
+.action-sheet-bg.open { opacity: 1; visibility: visible; pointer-events: auto; background: rgba(0,0,0,0.55); transition: opacity 0.2s ease, visibility 0s linear 0s, background 0.2s ease; }
+.action-sheet { width: 100%; background: #14142A; border-radius: 24px 24px 0 0; padding: 20px 18px 24px; transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1); }
+.action-sheet-bg.open .action-sheet { transform: translateY(0); }
 .bs-handle { width: 36px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 4px; margin: 0 auto 16px; }
-.bs-title { font-size: 13px; color: #8C8CA8; font-weight: 500; margin-bottom: 14px; text-align: center; }
-.bs-action { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); margin-bottom: 8px; cursor: pointer; border: none; width: 100%; color: #FFF; font-family: inherit; font-size: 14px; font-weight: 500; }
+.bs-title { font-size: 13px; color: #8C8CA8; font-weight: 500; margin-bottom: 4px; text-align: center; }
+.bs-subtitle { font-size: 11.5px; color: #9595B0; margin: 0 0 12px; text-align: center; }
+.cp-check { font-size: 16px; color: #80E0AC; opacity: 0; transition: opacity 0.15s; }
+.bs-action.selected .cp-check { opacity: 1; }
+.bs-action { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); margin-bottom: 8px; cursor: pointer; border: none; width: 100%; color: #FFF; font-family: inherit; font-size: 14px; font-weight: 500; transition: transform 0.1s, background 0.15s; }
+.bs-action:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
 .bs-action.danger { color: #FF8585; }
 .bs-action i { font-size: 18px; }
-.dialog-bg { position: absolute; inset: 0; background: rgba(0,0,0,0.65); z-index: 200; display: none; align-items: center; justify-content: center; border-radius: 32px; overflow: hidden; padding: 20px; }
-.dialog-bg.open { display: flex; }
-.dialog { background: #14142A; border-radius: 18px; padding: 20px; width: 100%; max-width: 280px; text-align: center; border: 0.5px solid rgba(255,255,255,0.1); }
+.dialog-bg { position: absolute; inset: 0; background: rgba(0,0,0,0); z-index: 200; display: flex; align-items: center; justify-content: center; border-radius: 32px; overflow: hidden; padding: 20px; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s ease, visibility 0s linear 0.2s, background 0.2s ease; }
+.dialog-bg.open { opacity: 1; visibility: visible; pointer-events: auto; background: rgba(0,0,0,0.65); transition: opacity 0.2s ease, visibility 0s linear 0s, background 0.2s ease; }
+.dialog { background: #14142A; border-radius: 18px; padding: 20px; width: 100%; max-width: 280px; text-align: center; border: 0.5px solid rgba(255,255,255,0.1); transform: scale(0.92); opacity: 0; transition: transform 0.22s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.18s ease; }
+.dialog-bg.open .dialog { transform: scale(1); opacity: 1; }
 .dialog-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
 .dialog-text { font-size: 13px; color: #8C8CA8; margin-bottom: 18px; line-height: 1.4; }
 .dialog-actions { display: flex; gap: 10px; }
-.dialog-btn { flex: 1; padding: 11px; border-radius: 11px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
+.dialog-btn { flex: 1; padding: 11px; border-radius: 11px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; transition: transform 0.1s, opacity 0.15s; }
+.dialog-btn:active { transform: scale(0.97); opacity: 0.9; }
 .dialog-btn.cancel { background: rgba(255,255,255,0.06); color: #FFF; border: 0.5px solid rgba(255,255,255,0.1); }
 .dialog-btn.confirm { background: linear-gradient(135deg, #FF6B6B 0%, #FF8A5B 100%); color: #FFF; }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-add" viewBox="0 0 24 24"><path d="M10.5 19.5v-6h-6q-.625 0-1.062-.437T3 12t.438-1.062T4.5 10.5h6v-6q0-.625.438-1.062T12 3t1.063.438T13.5 4.5v6h6q.625 0 1.063.438T21 12t-.437 1.063t-1.063.437h-6v6q0 .625-.437 1.063T12 21t-1.062-.437T10.5 19.5"/></symbol>
+    <symbol id="i-arrow_back" viewBox="0 0 24 24"><path d="m12 20-8-8 8-8 1.425 1.4L7.825 11H20v2H7.825l5.6 5.6z"/></symbol>
+    <symbol id="i-arrow_forward" viewBox="0 0 24 24"><path d="m12 20-1.425-1.4 5.6-5.6H4v-2h12.175l-5.6-5.6L12 4l8 8z"/></symbol>
+    <symbol id="i-calendar_today" viewBox="0 0 24 24"><path d="M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5zM5 8h14V6H5z"/></symbol>
+    <symbol id="i-chat_bubble_outline" viewBox="0 0 24 24"><path d="M6 14h8v-2H6zm0-3h12V9H6zm0-3h12V6H6zM2 22V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18H6zm3.15-6H20V4H4v13.125z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m9.55 17.575-5.675-5.65L5.3 10.5l4.25 4.25 9.15-9.15 1.425 1.425z"/></symbol>
+    <symbol id="i-chevron_right" viewBox="0 0 24 24"><path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6z"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6z"/></symbol>
+    <symbol id="i-delete" viewBox="0 0 24 24"><path d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM7 6v13h10V6zm2 11h2V8H9zm4 0h2V8h-2z"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M5 19h1.4l8.625-8.625-1.4-1.4L5 17.6zm-2 2v-4.25L16.2 3.575q.3-.275.663-.425T17.625 3t.75.15t.65.45L20.425 5q.3.275.438.65T21 6.4t-.137.763q-.138.362-.438.662L7.25 21z"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M13 21q-3.275 0-5.788-2.087T4.05 13.6q-.075-.45.225-.788T5.05 12.4q.4-.05.725.2t.4.65q.4 2.4 2.288 4.075T12.95 19q2.925 0 4.963-2.037T20 12t-2.087-4.963T13 5q-1.7 0-3.187.788T7.25 7.95H9q.425 0 .713.288T10 8.95t-.287.713T9 9.95H5q-.425 0-.712-.288T4 8.95v-4q0-.425.288-.712T5 3.95t.713.288T6 4.95v1.6q1.375-1.725 3.388-2.638T13.05 3q1.875 0 3.513.713t2.85 1.925t1.925 2.85T22 12q0 1.875-.712 3.513t-1.925 2.85t-2.85 1.925T13 21m1-9.4 2.5 2.5q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-2.8-2.8q-.15-.15-.225-.337T12 11.275V7.95q0-.425.288-.712T13 6.95t.713.288T14 7.95z"/></symbol>
+    <symbol id="i-receipt_long" viewBox="0 0 24 24"><path d="M5 22V4q0-.825.588-1.412T7 2h10q.825 0 1.413.588T19 4v18l-2-1l-2 1l-2-1l-2 1l-2-1l-2 1zm4-5h6v-2H9zm0-4h6v-2H9zm0-4h6V7H9z"/></symbol>
+    <symbol id="i-swap_horiz" viewBox="0 0 24 24"><path d="M6.275 21.7q-.275 0-.525-.1t-.45-.3l-3.6-3.6q-.275-.275-.4-.612T1.175 16.5q0-.4.125-.737t.4-.613l3.6-3.6q.425-.425 1.05-.425t1.05.425t.425 1.05t-.425 1.05l-1.05 1.05H15.5q.625 0 1.063.438T17 16.5t-.437 1.063T15.5 18H6.35l1.05 1.05q.425.425.425 1.05t-.425 1.05q-.2.2-.5.325t-.625.125m11.45-9q-.625 0-1.05-.437t-.425-1.063t.425-1.05t1.05-.425l1.05-1.05H9.5q-.625 0-1.062-.437T8 7.5t.438-1.062T9.5 6h9.15l-1.05-1.05q-.425-.425-.425-1.05t.425-1.05t1.05-.425t1.05.425l3.6 3.6q.275.275.4.613t.125.737q0 .4-.125.738t-.4.612l-3.6 3.6q-.2.2-.5.325t-.625.125"/></symbol>
+    <symbol id="i-content_copy" viewBox="0 0 24 24"><path d="M9 18q-.825 0-1.412-.587T7 16V4q0-.825.588-1.412T9 2h9q.825 0 1.413.588T20 4v12q0 .825-.587 1.413T18 18zm0-2h9V4H9zm-4 6q-.825 0-1.412-.587T3 20V6h2v14h11v2zm4-6V4z"/></symbol>
+    <symbol id="i-more_vert" viewBox="0 0 24 24"><path d="M12 20q-.825 0-1.412-.587T10 18t.588-1.412T12 16t1.413.588T14 18t-.587 1.413T12 20m0-6q-.825 0-1.412-.587T10 12t.588-1.412T12 10t1.413.588T14 12t-.587 1.413T12 14m0-6q-.825 0-1.412-.587T10 6t.588-1.412T12 4t1.413.588T14 6t-.587 1.413T12 8"/></symbol>
+    <symbol id="i-playlist_add" viewBox="0 0 24 24"><path d="M14 16H4q-.425 0-.712-.288T3 15t.288-.712T4 14h10q.425 0 .713.288T15 15t-.288.713T14 16m0-4H4q-.425 0-.712-.288T3 11t.288-.712T4 10h10q.425 0 .713.288T15 11t-.288.713T14 12m0-4H4q-.425 0-.712-.288T3 7t.288-.712T4 6h10q.425 0 .713.288T15 7t-.288.713T14 8m4 8v-2h-2q-.425 0-.712-.288T15 13t.288-.712T16 12h2v-2q0-.425.288-.712T19 9t.713.288T20 10v2h2q.425 0 .713.288T23 13t-.288.713T22 14h-2v2q0 .425-.288.713T19 17t-.712-.288T18 16"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M4.4 19.425q-.5.2-.95-.087T3 18.5v-3.9q0-.275.156-.5t.419-.3L11 12L3.575 10.2q-.263-.075-.419-.3T3 9.4V5.5q0-.55.45-.837t.95-.088l15.4 6.5q.625.275.625.925t-.625.925z"/></symbol>
+  </defs>
+</svg>
 <div class="proto-shell">
   <div class="phone">
     <div class="notch-desktop"></div>
     <div class="scr active" id="scr-home">
       <div class="statusbar-desktop"><span id="clock">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
-      <div class="period-row" style="margin-top: 8px;"><div class="period-pill"><i class="ti" style="font-size:11px">calendar_today</i> <span id="period-text">—</span></div></div>
-      <div class="totals-grid">
-        <div class="total-card her" id="home-card-her">
-          <div class="av-mini her">A</div>
-          <div class="total-info"><div class="total-name">Audrey</div><div class="total-amount" id="total-her">0,00 €</div><div class="total-count" id="count-her">0 dépense</div></div>
-        </div>
-        <div class="total-card me" id="home-card-me">
-          <div class="av-mini me">P</div>
-          <div class="total-info"><div class="total-name">Pierre</div><div class="total-amount" id="total-me">0,00 €</div><div class="total-count" id="count-me">0 dépense</div></div>
+      <div class="top-row home-top-row">
+        <div style="width:36px"></div>
+        <h2 class="screen-title">Dépenses en cours</h2>
+        <button class="menu-dot" id="btn-history" aria-label="Historique"><i class="ti"><svg><use href="#i-history"/></svg></i></button>
+      </div>
+      <div class="home-header">
+        <div class="totals-merged">
+          <div class="total-card her" id="home-card-her">
+            <div class="av-mini her">A</div>
+            <div class="total-info"><div class="total-header"><div class="total-name">Audrey</div><div class="total-count" id="count-her">0 dépense</div></div><div class="total-amount" id="total-her">0,00 €</div></div>
+          </div>
+          <button class="merge-balance-btn" id="btn-balance" aria-label="Calculer le solde"><i class="ti"><svg><use href="#i-swap_horiz"/></svg></i></button>
+          <div class="total-card me" id="home-card-me">
+            <div class="av-mini me">P</div>
+            <div class="total-info"><div class="total-header"><div class="total-name">Pierre</div><div class="total-count" id="count-me">0 dépense</div></div><div class="total-amount" id="total-me">0,00 €</div></div>
+          </div>
         </div>
       </div>
       <div class="chat-area" id="chat-area"></div>
@@ -201,26 +341,27 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
         <div class="preview-bar" id="preview-bar"><span class="preview-hint">Ex&nbsp;: <code>27 carrefour</code> · <code>a: 8,40 boulangerie</code></span></div>
         <div class="composer-row">
           <div class="composer-input-wrap">
-            <button class="composer-plus-inline" id="btn-add" aria-label="Formulaire complet"><i class="ti">add</i></button>
+            <button class="composer-plus-inline" id="btn-add" aria-label="Formulaire complet"><i class="ti"><svg><use href="#i-add"/></svg></i></button>
             <input class="composer-input" id="composer-input" type="text" placeholder="Une dépense…" autocomplete="off" enterkeyhint="send">
+            <button class="composer-payer-inline" id="btn-composer-payer" aria-label="Payeur par défaut"><div class="av-mini me" id="composer-payer-avatar">P</div></button>
+            <button class="composer-send-inline" id="btn-send" aria-label="Envoyer" style="display:none"><i class="ti"><svg><use href="#i-send"/></svg></i></button>
           </div>
-          <button class="composer-balance" id="btn-balance" aria-label="Calculer le solde"><i class="ti">calculate</i></button>
         </div>
       </div>
     </div>
     <div class="scr" id="scr-add">
       <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
       <div class="top-row">
-        <button class="menu-dot" id="btn-close-add"><i class="ti">close</i></button>
+        <button class="menu-dot" id="btn-close-add"><i class="ti"><svg><use href="#i-close"/></svg></i></button>
         <h2 class="screen-title" id="add-title">Nouvelle dépense</h2>
         <div style="width:36px"></div>
       </div>
       <div class="amount-big">
         <p class="amount-label">Montant</p>
-        <div class="amount-wrap"><input class="amount-input" id="input-amount" type="text" inputmode="decimal" placeholder="0,00" size="5"><span class="amount-currency">€</span></div>
+        <div class="amount-wrap"><input class="amount-input" id="input-amount" type="text" inputmode="decimal" placeholder="0,00" size="5" enterkeyhint="next"><span class="amount-currency">€</span></div>
       </div>
       <div class="form-field">
-        <div class="form-field-content"><div class="form-label">Libellé</div><input class="form-input" id="input-label" type="text" placeholder="Carrefour, EDF…"></div>
+        <div class="form-field-content"><div class="form-label">Libellé</div><input class="form-input" id="input-label" type="text" placeholder="Carrefour, EDF…" enterkeyhint="next"></div>
       </div>
       <p class="payer-section-label">Payé par</p>
       <div class="payer-toggle">
@@ -228,48 +369,104 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
         <button class="payer-seg active" data-payer="me"><div class="av-mini me">P</div> Pierre</button>
       </div>
       <div class="form-field">
-        <i class="ti form-icon">calendar_today</i>
-        <div class="form-field-content"><div class="form-label">Date</div><input class="form-input" id="input-date" type="date"></div>
+        <i class="ti form-icon"><svg><use href="#i-calendar_today"/></svg></i>
+        <div class="form-field-content"><div class="form-label">Date</div><input class="form-input" id="input-date" type="date" enterkeyhint="done"></div>
       </div>
-      <button class="cta-save" id="btn-save"><span class="cta-save-inner"><i class="ti">check</i> Enregistrer</span></button>
+      <button class="cta-save" id="btn-save"><span class="cta-save-inner"><i class="ti"><svg><use href="#i-check"/></svg></i> Enregistrer</span></button>
+      <button class="cta-delete" id="btn-delete-from-edit" style="display:none"><i class="ti"><svg><use href="#i-delete"/></svg></i> Supprimer la dépense</button>
     </div>
     <div class="scr" id="scr-balance">
       <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
       <div class="top-row">
-        <button class="menu-dot" id="btn-close-balance"><i class="ti">arrow_back</i></button>
-        <h2 class="screen-title" id="balance-screen-title">Solde courant</h2>
-        <button class="menu-dot" id="btn-toggle-history"><i class="ti">history</i></button>
+        <button class="menu-dot" id="btn-close-balance"><i class="ti"><svg><use href="#i-arrow_back"/></svg></i></button>
+        <h2 class="screen-title">Solde courant</h2>
+        <div style="width:36px"></div>
       </div>
-      <div id="tab-current">
-        <div class="period-row"><div class="period-pill"><i class="ti" style="font-size:11px">calendar_today</i> <span id="bal-period-pill">—</span></div></div>
-        <div class="group-card">
-          <div class="gc-split">
-            <div class="gc-split-col" id="bal-col-her"><div class="gc-head"><div class="av-mini her sm">A</div> Audrey</div><div class="gc-val"><span id="bal-paid-her">0,00 €</span> <i class="ti gc-chevron">chevron_right</i></div></div>
-            <div class="gc-split-col right" id="bal-col-me"><div class="gc-head right">Pierre <div class="av-mini me sm">P</div></div><div class="gc-val right"><i class="ti gc-chevron">chevron_right</i> <span id="bal-paid-me">0,00 €</span></div></div>
-          </div>
-          <div class="gc-divider"></div>
-          <div class="gc-center"><div class="gc-center-label">Total commun</div><div class="gc-center-val" id="bal-total">0,00 €</div></div>
+      <div class="period-row"><div class="period-pill"><i class="ti" style="font-size:11px"><svg><use href="#i-calendar_today"/></svg></i> <span id="bal-period-pill">—</span></div></div>
+      <div class="group-card">
+        <div class="gc-split">
+          <div class="gc-split-col" id="bal-col-her"><div class="gc-head"><div class="av-mini her sm">A</div> Audrey</div><div class="gc-val"><span id="bal-paid-her">0,00 €</span> <i class="ti gc-chevron"><svg><use href="#i-chevron_right"/></svg></i></div></div>
+          <div class="gc-split-col right" id="bal-col-me"><div class="gc-head right">Pierre <div class="av-mini me sm">P</div></div><div class="gc-val right"><i class="ti gc-chevron"><svg><use href="#i-chevron_right"/></svg></i> <span id="bal-paid-me">0,00 €</span></div></div>
         </div>
-        <div class="group-card">
-          <div class="gc-split">
-            <div class="gc-split-col" style="cursor:default"><div class="gc-head"><div class="av-mini her sm">A</div> Sa part · 45 %</div><div class="gc-val" id="share-her">0,00 €</div></div>
-            <div class="gc-split-col right" style="cursor:default"><div class="gc-head right">Ta part · 55 % <div class="av-mini me sm">P</div></div><div class="gc-val right" id="share-me">0,00 €</div></div>
-          </div>
-          <div class="gc-divider"></div>
-          <div class="bal-final-card" id="bal-card"><div class="gc-center"><p class="bal-final-label" id="bal-label">Solde équilibré</p><p class="bal-final-amount" id="bal-amount">0,00<span class="cents"> €</span></p><p class="bal-final-explain" id="bal-explain"></p></div></div>
-        </div>
-        <button class="settle-cta" id="btn-settle"><span class="settle-cta-inner"><i class="ti">check</i> Clôturer cette période</span></button>
+        <div class="gc-divider"></div>
+        <div class="gc-center"><div class="gc-center-label">Total commun</div><div class="gc-center-val" id="bal-total">0,00 €</div></div>
       </div>
-      <div id="tab-history" style="display:none"><div class="history-list" id="history-list"><div class="history-empty">Aucun règlement clôturé pour l'instant.</div></div></div>
+      <div class="group-card">
+        <div class="gc-split">
+          <div class="gc-split-col" style="cursor:default"><div class="gc-head"><div class="av-mini her sm">A</div> Sa part · 45 %</div><div class="gc-val" id="share-her">0,00 €</div></div>
+          <div class="gc-split-col right" style="cursor:default"><div class="gc-head right">Ta part · 55 % <div class="av-mini me sm">P</div></div><div class="gc-val right" id="share-me">0,00 €</div></div>
+        </div>
+        <div class="gc-divider"></div>
+        <div class="bal-final-card" id="bal-card"><div class="gc-center"><p class="bal-final-label" id="bal-label">Solde équilibré</p><p class="bal-final-amount" id="bal-amount">0,00<span class="cents"> €</span></p><p class="bal-final-explain" id="bal-explain"></p></div></div>
+      </div>
+      <button class="settle-cta" id="btn-settle"><span class="settle-cta-inner"><i class="ti"><svg><use href="#i-check"/></svg></i> Clôturer cette période</span></button>
+    </div>
+
+    <div class="scr" id="scr-history">
+      <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
+      <div class="top-row">
+        <button class="menu-dot" id="btn-close-history"><i class="ti"><svg><use href="#i-arrow_back"/></svg></i></button>
+        <h2 class="screen-title">Historique</h2>
+        <button class="menu-dot" id="btn-history-menu" aria-label="Menu"><i class="ti"><svg><use href="#i-more_vert"/></svg></i></button>
+      </div>
+      <div class="history-list" id="history-list">
+        <div class="history-empty">Aucun règlement clôturé pour l'instant.</div>
+      </div>
+    </div>
+
+    <div class="scr" id="scr-bulk">
+      <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
+      <div class="top-row">
+        <button class="menu-dot" id="btn-close-bulk"><i class="ti"><svg><use href="#i-close"/></svg></i></button>
+        <h2 class="screen-title">Plusieurs dépenses</h2>
+        <div style="width:36px"></div>
+      </div>
+      <div class="bulk-content">
+        <p class="bulk-section-label">Payé par</p>
+        <div class="payer-toggle">
+          <button class="payer-seg" data-bulk-payer="her"><div class="av-mini her">A</div> Audrey</button>
+          <button class="payer-seg active" data-bulk-payer="me"><div class="av-mini me">P</div> Pierre</button>
+        </div>
+        <p class="bulk-section-label">Dépenses</p>
+        <textarea class="bulk-textarea" id="bulk-input" placeholder="Une dépense par ligne&#10;&#10;boulangerie 8,40&#10;naturalia 31,15&#10;maraîcher 16,70" rows="6"></textarea>
+        <p class="bulk-hint">Une dépense par ligne. Format&nbsp;: <code>libellé montant</code>, ou <code>12/05 libellé montant</code> pour une date précise.</p>
+        <div class="bulk-preview" id="bulk-preview"></div>
+      </div>
+      <button class="cta-save" id="btn-bulk-save" disabled><span class="cta-save-inner"><i class="ti"><svg><use href="#i-check"/></svg></i> <span id="bulk-save-label">Ajouter</span></span></button>
+    </div>
+
+    <div class="scr" id="scr-settlement-detail">
+      <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
+      <div class="top-row">
+        <button class="menu-dot" id="btn-close-settlement"><i class="ti"><svg><use href="#i-arrow_back"/></svg></i></button>
+        <h2 class="screen-title" id="settlement-title">Solde clôturé</h2>
+        <div style="width:36px"></div>
+      </div>
+      <div class="period-row"><div class="period-pill"><i class="ti" style="font-size:11px"><svg><use href="#i-calendar_today"/></svg></i> <span id="settlement-period-pill">—</span></div></div>
+      <div class="group-card">
+        <div class="gc-split">
+          <div class="gc-split-col"><div class="gc-head"><div class="av-mini her sm">A</div> Audrey</div><div class="gc-val" id="settlement-paid-her">0,00 €</div></div>
+          <div class="gc-split-col right"><div class="gc-head right">Pierre <div class="av-mini me sm">P</div></div><div class="gc-val right" id="settlement-paid-me">0,00 €</div></div>
+        </div>
+        <div class="gc-divider"></div>
+        <div class="gc-center"><div class="gc-center-label">Total commun</div><div class="gc-center-val" id="settlement-total">0,00 €</div></div>
+      </div>
+      <div class="group-card">
+        <div class="bal-final-card" id="settlement-card"><div class="gc-center"><p class="bal-final-label" id="settlement-label">—</p><p class="bal-final-amount" id="settlement-amount">0,00<span class="cents"> €</span></p></div></div>
+      </div>
+      <div class="settlement-chat-wrap">
+        <h3 class="settlement-section-title">Dépenses de la période</h3>
+        <div class="chat-area" id="settlement-chat-area"></div>
+      </div>
     </div>
     <div class="scr" id="scr-detail">
       <div class="statusbar-desktop"><span class="clock-mirror">9:41</span><div class="right"><span>5G</span><span>100%</span></div></div>
       <div class="top-row">
-        <button class="menu-dot" id="btn-close-detail"><i class="ti">arrow_back</i></button>
+        <button class="menu-dot" id="btn-close-detail"><i class="ti"><svg><use href="#i-arrow_back"/></svg></i></button>
         <h2 class="screen-title" id="detail-title">Dépenses</h2>
         <div style="width:36px"></div>
       </div>
-      <div class="period-row"><div class="period-pill"><i class="ti" style="font-size:11px">calendar_today</i> <span id="detail-period-pill">—</span></div></div>
+      <div class="period-row"><div class="period-pill"><i class="ti" style="font-size:11px"><svg><use href="#i-calendar_today"/></svg></i> <span id="detail-period-pill">—</span></div></div>
       <div class="detail-summary" id="detail-summary">
         <div class="ds-info"><div class="av-mini" id="detail-avatar">A</div><div class="ds-count" id="detail-count">0 dépense</div></div>
         <div class="ds-amount" id="detail-amount">0,00 €</div>
@@ -280,14 +477,50 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
       <div class="action-sheet">
         <div class="bs-handle"></div>
         <p class="bs-title" id="bubble-sheet-title">Dépense</p>
-        <button class="bs-action" id="bs-edit"><i class="ti">edit</i> Modifier</button>
-        <button class="bs-action danger" id="bs-delete"><i class="ti">delete</i> Supprimer</button>
+        <button class="bs-action" id="bs-edit"><i class="ti"><svg><use href="#i-edit"/></svg></i> Modifier</button>
+        <button class="bs-action danger" id="bs-delete"><i class="ti"><svg><use href="#i-delete"/></svg></i> Supprimer</button>
         <button class="bs-action" id="bs-cancel" style="justify-content:center;margin-top:4px;background:transparent;color:#8C8CA8">Annuler</button>
+      </div>
+    </div>
+    <div class="action-sheet-bg" id="history-menu-sheet">
+      <div class="action-sheet">
+        <div class="bs-handle"></div>
+        <p class="bs-title">Historique</p>
+        <button class="bs-action danger" id="hm-clear"><i class="ti"><svg><use href="#i-delete"/></svg></i> Tout effacer</button>
+        <button class="bs-action" id="hm-cancel" style="justify-content:center;margin-top:4px;background:transparent;color:#8C8CA8">Annuler</button>
+      </div>
+    </div>
+    <div class="action-sheet-bg" id="composer-payer-sheet">
+      <div class="action-sheet">
+        <div class="bs-handle"></div>
+        <p class="bs-title">Payeur par défaut</p>
+        <p class="bs-subtitle">Pour les dépenses saisies sans préfixe</p>
+        <button class="bs-action" id="cp-me"><div class="av-mini me">P</div> Pierre <i class="ti cp-check" style="margin-left:auto"><svg><use href="#i-check"/></svg></i></button>
+        <button class="bs-action" id="cp-her"><div class="av-mini her">A</div> Audrey <i class="ti cp-check" style="margin-left:auto"><svg><use href="#i-check"/></svg></i></button>
+        <button class="bs-action" id="cp-cancel" style="justify-content:center;margin-top:4px;background:transparent;color:#8C8CA8">Annuler</button>
+      </div>
+    </div>
+    <div class="action-sheet-bg" id="add-menu-sheet">
+      <div class="action-sheet">
+        <div class="bs-handle"></div>
+        <p class="bs-title">Ajouter</p>
+        <button class="bs-action" id="am-single"><i class="ti"><svg><use href="#i-add"/></svg></i> Une dépense</button>
+        <button class="bs-action" id="am-bulk"><i class="ti"><svg><use href="#i-playlist_add"/></svg></i> Plusieurs dépenses</button>
+        <button class="bs-action" id="am-cancel" style="justify-content:center;margin-top:4px;background:transparent;color:#8C8CA8">Annuler</button>
+      </div>
+    </div>
+    <div class="action-sheet-bg" id="history-item-sheet">
+      <div class="action-sheet">
+        <div class="bs-handle"></div>
+        <p class="bs-title" id="his-title">Solde clôturé</p>
+        <button class="bs-action" id="his-view"><i class="ti"><svg><use href="#i-chevron_right"/></svg></i> Voir le détail</button>
+        <button class="bs-action danger" id="his-delete"><i class="ti"><svg><use href="#i-delete"/></svg></i> Supprimer</button>
+        <button class="bs-action" id="his-cancel" style="justify-content:center;margin-top:4px;background:transparent;color:#8C8CA8">Annuler</button>
       </div>
     </div>
     <div class="dialog-bg" id="confirm-dialog">
       <div class="dialog">
-        <div class="dialog-title">Supprimer cette dépense ?</div>
+        <div class="dialog-title" id="confirm-title">Supprimer cette dépense ?</div>
         <div class="dialog-text" id="confirm-text">—</div>
         <div class="dialog-actions">
           <button class="dialog-btn cancel" id="confirm-cancel">Annuler</button>
@@ -296,16 +529,65 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
       </div>
     </div>
   </div>
+  <div class="toast" id="toast"><i class="ti"><svg><use href="#i-content_copy"/></svg></i><span id="toast-text">Copié</span></div>
 </div>
 <script>
 (function() {
-  const state = { expenses: [], settlements: [], periodStart: null, editingId: null, pendingDeleteId: null, currentPayer: 'me', currentTab: 'current', detailPayer: null, returnToScreen: 'home' };
+  const state = { expenses: [], settlements: [], periodStart: null, editingId: null, pendingDeleteId: null, currentPayer: 'me', currentTab: 'current', detailPayer: null, returnToScreen: 'home', viewingSettlementId: null, justAddedId: null, composerDefaultPayer: 'me' };
   const today = new Date();
   const fmt = d => { const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return y + '-' + m + '-' + day; };
   const daysAgo = n => { const d = new Date(today); d.setDate(d.getDate() - n); return fmt(d); };
-  state.periodStart = fmt(today);
-  state.expenses = [];
+
+  // ===== Persistence =====
+  const STORAGE_KEY = 'koople.v1';
+  const STORAGE_VERSION = 1;
   let nextId = 1;
+
+  function save() {
+    try {
+      const data = {
+        version: STORAGE_VERSION,
+        expenses: state.expenses,
+        settlements: state.settlements,
+        periodStart: state.periodStart,
+        nextId: nextId,
+        composerDefaultPayer: state.composerDefaultPayer
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) { console.warn('Save failed:', e); }
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      if (data.version !== STORAGE_VERSION) return false;
+      state.expenses = data.expenses || [];
+      state.settlements = data.settlements || [];
+      state.periodStart = data.periodStart || fmt(today);
+      nextId = data.nextId || 1;
+      state.composerDefaultPayer = data.composerDefaultPayer || 'me';
+      return true;
+    } catch (e) { console.warn('Load failed:', e); return false; }
+  }
+
+  function resetAll() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    state.expenses = [];
+    state.settlements = [];
+    state.periodStart = fmt(today);
+    nextId = 1;
+    state.composerDefaultPayer = 'me';
+  }
+
+  // Init: try to load, otherwise default empty
+  if (!load()) {
+    state.periodStart = fmt(today);
+    state.expenses = [];
+    nextId = 1;
+  }
+
   const fmtMoney = c => (c / 100).toFixed(2).replace('.', ',') + ' €';
   const fmtDay = iso => { const [y,mo,d] = iso.split('-').map(Number); const m = ['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc']; return d + ' ' + m[mo-1]; };
   const dayLabel = iso => iso === fmt(today) ? "Aujourd'hui" : iso === daysAgo(1) ? "Hier" : fmtDay(iso);
@@ -331,10 +613,37 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
     return 'Du ' + fmtDay(first) + ' au ' + fmtDay(last);
   };
 
+  // Compute number of days since period started (state.periodStart)
+  const daysSincePeriodStart = () => {
+    const start = new Date(state.periodStart);
+    const t = new Date(fmt(today));  // strip time
+    return Math.max(0, Math.round((t - start) / 86400000));
+  };
+
+  // Build the HTML for the period banner (used in chat top and empty state)
+  const buildPeriodBannerHtml = () => {
+    const days = daysSincePeriodStart();
+    const hasSettlement = state.settlements.length > 0;
+    let text, level;
+    if (!hasSettlement) {
+      // Première période, jamais clôturé
+      if (days === 0) text = 'Première période · ouverte aujourd\'hui';
+      else if (days === 1) text = 'Première période · ouverte hier';
+      else text = 'Première période · ouverte depuis ' + days + ' jours';
+      level = days >= 10 ? 3 : (days >= 7 ? 2 : 1);
+    } else {
+      if (days === 0) text = 'Nouvelle période · ouverte aujourd\'hui';
+      else if (days === 1) text = 'En cours depuis 1 jour';
+      else text = 'En cours depuis ' + days + ' jours';
+      level = days >= 10 ? 3 : (days >= 7 ? 2 : 1);
+    }
+    return '<div class="period-banner level-' + level + '"><span class="period-banner-inner"><i class="ti"><svg><use href="#i-calendar_today"/></svg></i>' + text + '</span></div>';
+  };
+
   function parseExpense(text) {
     let s = text.trim();
     if (!s) return null;
-    let payer = 'me', date = fmt(today), dateLabel = "Aujourd'hui", amount = null, label = '';
+    let payer = state.composerDefaultPayer || 'me', date = fmt(today), dateLabel = "Aujourd'hui", amount = null, label = '';
     const pm = s.match(/^(audrey|elle|a|e|m)\s*[:.]?\s+/i);
     if (pm) { payer = 'her'; s = s.substring(pm[0].length); }
     const lower = s.toLowerCase();
@@ -362,18 +671,35 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
     const text = document.getElementById('composer-input').value;
     const p = parseExpense(text);
     const bar = document.getElementById('preview-bar');
-    if (!text.trim()) { bar.className = 'preview-bar'; bar.innerHTML = '<span class="preview-hint">Ex&nbsp;: <code>27 carrefour</code> · <code>a: 8,40 boulangerie</code></span>'; return; }
-    if (!p || !p.valid) { bar.className = 'preview-bar'; bar.innerHTML = '<span class="preview-hint">Il manque un montant…</span>'; return; }
-    bar.className = 'preview-bar ' + (p.payer === 'me' ? 'valid' : 'valid-her');
-    const pn = p.payer === 'me' ? 'Pierre' : 'Audrey', pi = p.payer === 'me' ? 'P' : 'A';
-    bar.innerHTML = '<span class="preview-chip payer-' + p.payer + '"><div class="av-mini ' + p.payer + '" style="width:14px;height:14px;font-size:8px">' + pi + '</div> ' + pn + '</span><span class="preview-chip amount">' + fmtMoney(p.amount) + '</span><span class="preview-chip date">' + p.dateLabel + '</span>' + (p.label ? '<span class="preview-chip label">' + escapeHtml(p.label) + '</span>' : '<span class="preview-chip label" style="opacity:0.5;font-style:italic">sans libellé</span>');
+    const send = document.getElementById('btn-send');
+    const payerBtn = document.getElementById('btn-composer-payer');
+    const showSend = (valid) => {
+      send.style.display = valid ? 'flex' : 'none';
+      payerBtn.style.display = valid ? 'none' : 'flex';
+    };
+    if (!text.trim()) { bar.className = 'preview-bar hint-only'; bar.innerHTML = '<span class="preview-hint">Ex&nbsp;: <code>27 carrefour</code> · <code>a: 8,40 boulangerie</code></span>'; showSend(false); return; }
+    if (!p || !p.valid) { bar.className = 'preview-bar hint-only'; bar.innerHTML = '<span class="preview-hint">Il manque un montant…</span>'; showSend(false); return; }
+    showSend(true);
+    bar.className = 'preview-bar as-bubble payer-' + p.payer;
+    const pi = p.payer === 'me' ? 'P' : 'A';
+    const labelHtml = p.label
+      ? '<span class="pb-label">' + escapeHtml(p.label) + '</span>'
+      : '<span class="pb-label empty">sans libellé</span>';
+    const bubbleHtml = '<div class="preview-bubble" id="preview-bubble">' + labelHtml + '<span class="pb-date">' + p.dateLabel + '</span><span class="pb-amount">' + fmtMoney(p.amount) + '</span></div>';
+    const avatarHtml = '<div class="preview-avatar-side ' + p.payer + '" id="preview-payer-chip">' + pi + '</div>';
+    bar.innerHTML = p.payer === 'me' ? bubbleHtml + avatarHtml : avatarHtml + bubbleHtml;
+    document.getElementById('preview-bubble').addEventListener('click', submitFromComposer);
+    document.getElementById('preview-payer-chip').addEventListener('click', openComposerPayerSheetFromPreview);
   }
 
   function submitFromComposer() {
     const text = document.getElementById('composer-input').value;
     const p = parseExpense(text);
     if (!p || !p.valid) return;
-    state.expenses.push({ id: nextId++, date: p.date, amount: p.amount, label: p.label || 'Sans nom', payer: p.payer });
+    const newId = nextId++;
+    state.expenses.push({ id: newId, date: p.date, amount: p.amount, label: p.label || 'Sans nom', payer: p.payer });
+    state.justAddedId = newId;
+    save();
     document.getElementById('composer-input').value = '';
     updatePreview();
     renderHome();
@@ -381,6 +707,7 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 
   document.getElementById('composer-input').addEventListener('input', updatePreview);
   document.getElementById('composer-input').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submitFromComposer(); } });
+  document.getElementById('btn-send').addEventListener('click', submitFromComposer);
 
   function attachLongPress(el, id) {
     let timer = null, fired = false;
@@ -404,37 +731,57 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
     document.getElementById('total-her').textContent = fmtMoney(herT);
     document.getElementById('count-me').textContent = pluralExp(active.filter(e => e.payer === 'me').length);
     document.getElementById('count-her').textContent = pluralExp(active.filter(e => e.payer === 'her').length);
-    document.getElementById('period-text').textContent = periodLabel(active);
-    renderBubbles(document.getElementById('chat-area'), active, null);
+    renderBubbles(document.getElementById('chat-area'), active, null, { showPeriodBanner: true });
   }
 
-  function renderBubbles(container, expenses, filterPayer) {
+  function renderBubbles(container, expenses, filterPayer, options) {
+    options = options || {};
     container.innerHTML = '';
     const filtered = filterPayer ? expenses.filter(e => e.payer === filterPayer) : expenses;
     if (filtered.length === 0) {
+      let bannerHtml = options.showPeriodBanner ? buildPeriodBannerHtml() : '';
       if (filterPayer) {
         const name = filterPayer === 'me' ? 'Pierre' : 'Audrey';
-        container.innerHTML = '<div class="chat-empty"><i class="ti">receipt_long</i><p class="title">Aucune dépense de ' + name + '</p><p class="subtitle">Les dépenses ajoutées pour cette personne apparaîtront ici.</p></div>';
+        container.innerHTML = '<div class="chat-empty">' + bannerHtml + '<i class="ti"><svg><use href="#i-receipt_long"/></svg></i><p class="title">Aucune dépense de ' + name + '</p><p class="subtitle">Les dépenses ajoutées pour cette personne apparaîtront ici.</p></div>';
       } else {
-        container.innerHTML = '<div class="chat-empty"><i class="ti">chat_bubble_outline</i><p class="title">Aucune dépense pour le moment</p><p class="subtitle">Tape ta première dépense dans la barre ci-dessous.</p><div class="examples"><span class="example">27 carrefour</span><span class="example">a: 8,40 boulangerie</span></div></div>';
+        container.innerHTML = '<div class="chat-empty">' + bannerHtml + '<i class="ti"><svg><use href="#i-chat_bubble_outline"/></svg></i><p class="title">Aucune dépense pour le moment</p><p class="subtitle">Tape ta première dépense dans la barre ci-dessous.</p><div class="examples"><span class="example">27 carrefour</span><span class="example">a: 8,40 boulangerie</span></div></div>';
       }
       return;
+    }
+    // Banner at the top of the chat (above any bubbles)
+    if (options.showPeriodBanner) {
+      container.insertAdjacentHTML('beforeend', buildPeriodBannerHtml());
     }
     const sorted = [...filtered].sort((a, b) => a.date !== b.date ? a.date.localeCompare(b.date) : a.id - b.id);
     let lastDate = null;
     sorted.forEach(e => {
-      if (e.date !== lastDate) { const sep = document.createElement('div'); sep.className = 'day-sep'; sep.textContent = dayLabel(e.date); container.appendChild(sep); lastDate = e.date; }
+      if (e.date !== lastDate) {
+        const sep = document.createElement('div');
+        sep.className = 'day-sep';
+        sep.textContent = dayLabel(e.date);
+        container.appendChild(sep);
+        lastDate = e.date;
+      }
       const row = document.createElement('div');
-      row.className = 'bubble-row ' + (e.payer === 'me' ? 'me-row' : '');
+      const isJustAdded = options.respectJustAdded !== false && state.justAddedId === e.id;
+      row.className = 'bubble-row ' + (e.payer === 'me' ? 'me-row' : '') + (isJustAdded ? ' just-added' : '');
       const cls = e.payer === 'me' ? 'me' : 'her', initial = e.payer === 'me' ? 'P' : 'A';
-      const bub = '<div class="bubble ' + cls + '" data-expense-id="' + e.id + '"><div class="label">' + escapeHtml(e.label) + '</div><div class="amount">' + fmtMoney(e.amount) + '</div></div>';
+      const bub = '<div class="bubble ' + cls + (options.readOnly ? ' read-only' : '') + '" data-expense-id="' + e.id + '"><div class="label">' + escapeHtml(e.label) + '</div><div class="amount">' + fmtMoney(e.amount) + '</div></div>';
       const av = '<div class="av-mini ' + cls + '">' + initial + '</div>';
       row.innerHTML = e.payer === 'me' ? bub + av : av + bub;
       container.appendChild(row);
     });
-    container.querySelectorAll('.bubble').forEach(b => attachLongPress(b, +b.dataset.expenseId));
+    if (!options.readOnly) {
+      container.querySelectorAll('.bubble').forEach(b => attachLongPress(b, +b.dataset.expenseId));
+    }
     // Scroll to bottom to show the most recent expense
-    requestAnimationFrame(() => { container.scrollTop = container.scrollHeight; });
+    requestAnimationFrame(() => {
+      container.scrollTop = container.scrollHeight;
+      // Consume justAddedId once animation has had time to play
+      if (state.justAddedId !== null && state.justAddedId !== undefined) {
+        setTimeout(() => { state.justAddedId = null; }, 350);
+      }
+    });
   }
 
   function openBubbleSheet(id) {
@@ -449,20 +796,41 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
   document.getElementById('bs-delete').addEventListener('click', () => {
     if (!state.editingId) return;
     const exp = state.expenses.find(e => e.id === state.editingId);
-    state.pendingDeleteId = state.editingId;
-    document.getElementById('confirm-text').textContent = '« ' + exp.label + ' » · ' + fmtMoney(exp.amount);
+    if (!exp) return;
+    const expId = state.editingId;
     document.getElementById('bubble-sheet').classList.remove('open');
-    document.getElementById('confirm-dialog').classList.add('open');
+    openConfirm({
+      title: 'Supprimer cette dépense ?',
+      text: '« ' + exp.label + ' » · ' + fmtMoney(exp.amount),
+      okText: 'Supprimer',
+      onConfirm: () => {
+        // Find the bubble row and animate out before removing from state
+        const bubble = document.querySelector('.bubble[data-expense-id="' + expId + '"]');
+        const row = bubble ? bubble.closest('.bubble-row') : null;
+        const finalize = () => {
+          state.expenses = state.expenses.filter(e => e.id !== expId);
+          save();
+          renderHome();
+          if (document.getElementById('scr-detail').classList.contains('active')) renderDetail();
+        };
+        if (row) {
+          row.classList.add('removing');
+          setTimeout(finalize, 230);
+        } else {
+          finalize();
+        }
+      }
+    });
   });
-  document.getElementById('confirm-cancel').addEventListener('click', () => { document.getElementById('confirm-dialog').classList.remove('open'); state.pendingDeleteId = null; });
+  document.getElementById('confirm-cancel').addEventListener('click', () => {
+    document.getElementById('confirm-dialog').classList.remove('open');
+    pendingConfirmAction = null;
+  });
   document.getElementById('confirm-ok').addEventListener('click', () => {
-    if (state.pendingDeleteId) {
-      state.expenses = state.expenses.filter(e => e.id !== state.pendingDeleteId);
-      state.pendingDeleteId = null;
-      document.getElementById('confirm-dialog').classList.remove('open');
-      renderHome();
-      if (document.getElementById('scr-detail').classList.contains('active')) renderDetail();
-    }
+    const action = pendingConfirmAction;
+    pendingConfirmAction = null;
+    document.getElementById('confirm-dialog').classList.remove('open');
+    if (typeof action === 'function') action();
   });
   document.getElementById('bs-edit').addEventListener('click', () => {
     const exp = state.expenses.find(e => e.id === state.editingId);
@@ -471,6 +839,8 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
   });
 
   function openAddScreen(editing) {
+    // Cleanup: ensure no overlay is left interfering
+    document.querySelectorAll('.action-sheet-bg.open, .dialog-bg.open').forEach(el => el.classList.remove('open'));
     state.returnToScreen = document.getElementById('scr-detail').classList.contains('active') ? 'detail' : 'home';
     document.querySelectorAll('.scr').forEach(s => s.classList.remove('active'));
     document.getElementById('scr-add').classList.add('active');
@@ -481,6 +851,7 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
       document.getElementById('input-label').value = editing.label || '';
       document.getElementById('input-date').value = editing.date;
       setPayer(editing.payer);
+      document.getElementById('btn-delete-from-edit').style.display = 'flex';
     } else {
       state.editingId = null;
       document.getElementById('add-title').textContent = 'Nouvelle dépense';
@@ -488,10 +859,148 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
       document.getElementById('input-label').value = '';
       document.getElementById('input-date').value = fmt(today);
       setPayer('me');
+      document.getElementById('btn-delete-from-edit').style.display = 'none';
     }
-    setTimeout(() => document.getElementById('input-amount').focus(), 50);
+    if (!editing) {
+      setTimeout(() => document.getElementById('input-amount').focus(), 50);
+    }
   }
-  document.getElementById('btn-add').addEventListener('click', () => openAddScreen());
+
+  // Make full area of form fields focus the input inside (helps with tiny tap targets on amount/label)
+  document.querySelectorAll('#scr-add .amount-big, #scr-add .form-field').forEach(area => {
+    area.addEventListener('click', (e) => {
+      // Don't redirect if clicking on the input itself or an interactive child
+      if (e.target.tagName === 'INPUT' || e.target.closest('button')) return;
+      const input = area.querySelector('input');
+      if (input) input.focus();
+    });
+  });
+  // Keyboard navigation: amount → label → date → submit
+  document.getElementById('input-amount').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); document.getElementById('input-label').focus(); }
+  });
+  document.getElementById('input-label').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); document.getElementById('input-date').focus(); }
+  });
+  document.getElementById('input-date').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); document.getElementById('input-date').blur(); document.getElementById('btn-save').click(); }
+  });
+
+  document.getElementById('btn-delete-from-edit').addEventListener('click', () => {
+    if (!state.editingId) return;
+    const exp = state.expenses.find(e => e.id === state.editingId);
+    if (!exp) return;
+    const expId = state.editingId;
+    openConfirm({
+      title: 'Supprimer cette dépense ?',
+      text: '« ' + exp.label + ' » · ' + fmtMoney(exp.amount),
+      okText: 'Supprimer',
+      onConfirm: () => {
+        state.expenses = state.expenses.filter(e => e.id !== expId);
+        save();
+        state.editingId = null;
+        document.getElementById('scr-add').classList.remove('active');
+        if (state.returnToScreen === 'detail') {
+          document.getElementById('scr-detail').classList.add('active');
+          renderDetail();
+        } else {
+          document.getElementById('scr-home').classList.add('active');
+        }
+        renderHome();
+        showToast('Dépense supprimée');
+      }
+    });
+  });
+  // ===== Composer default payer (avatar in composer + long-press on +) =====
+  function setComposerDefaultPayer(payer) {
+    state.composerDefaultPayer = payer;
+    const av = document.getElementById('composer-payer-avatar');
+    av.className = 'av-mini ' + payer;
+    av.textContent = payer === 'me' ? 'P' : 'A';
+    // Update selected state in the sheet
+    document.getElementById('cp-me').classList.toggle('selected', payer === 'me');
+    document.getElementById('cp-her').classList.toggle('selected', payer === 'her');
+    // Re-parse the input in case the default changes the interpretation
+    updatePreview();
+    save();
+  }
+  let payerSheetFromPreview = false;
+
+  function openComposerPayerSheet() {
+    payerSheetFromPreview = false;
+    setComposerDefaultPayer(state.composerDefaultPayer); // refresh selected state
+    document.getElementById('composer-payer-sheet').classList.add('open');
+  }
+  function openComposerPayerSheetFromPreview() {
+    payerSheetFromPreview = true;
+    setComposerDefaultPayer(state.composerDefaultPayer);
+    document.getElementById('composer-payer-sheet').classList.add('open');
+  }
+  function stripPayerPrefix(text) {
+    return text.replace(/^(audrey|elle|pierre|a|e|m|p)\s*[:.]\s+/i, '');
+  }
+  function applyPayerChoice(payer) {
+    if (payerSheetFromPreview) {
+      // Retirer le préfixe explicite dans le texte saisi
+      const input = document.getElementById('composer-input');
+      input.value = stripPayerPrefix(input.value);
+    }
+    setComposerDefaultPayer(payer);
+    document.getElementById('composer-payer-sheet').classList.remove('open');
+    payerSheetFromPreview = false;
+  }
+
+  document.getElementById('btn-composer-payer').addEventListener('click', openComposerPayerSheet);
+  document.getElementById('cp-cancel').addEventListener('click', () => {
+    document.getElementById('composer-payer-sheet').classList.remove('open');
+    payerSheetFromPreview = false;
+  });
+  document.getElementById('composer-payer-sheet').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) { e.currentTarget.classList.remove('open'); payerSheetFromPreview = false; }
+  });
+  document.getElementById('cp-me').addEventListener('click', () => applyPayerChoice('me'));
+  document.getElementById('cp-her').addEventListener('click', () => applyPayerChoice('her'));
+
+  // Long-press on the + button → opens payer sheet (shortcut)
+  (function attachPlusLongPress() {
+    const el = document.getElementById('btn-add');
+    let timer = null, fired = false;
+    const start = () => {
+      fired = false;
+      timer = setTimeout(() => { fired = true; openComposerPayerSheet(); if (navigator.vibrate) navigator.vibrate(15); }, 500);
+    };
+    const cancel = () => { if (timer) { clearTimeout(timer); timer = null; } };
+    el.addEventListener('mousedown', start);
+    el.addEventListener('touchstart', start, { passive: true });
+    el.addEventListener('mouseup', cancel);
+    el.addEventListener('mouseleave', cancel);
+    el.addEventListener('touchend', cancel);
+    el.addEventListener('touchmove', cancel);
+    el.addEventListener('touchcancel', cancel);
+    // Prevent click after long-press fires
+    el.addEventListener('click', e => { if (fired) { e.preventDefault(); e.stopPropagation(); } }, true);
+  })();
+
+  // Init the avatar at startup
+  setComposerDefaultPayer(state.composerDefaultPayer || 'me');
+
+  document.getElementById('btn-add').addEventListener('click', () => {
+    document.getElementById('add-menu-sheet').classList.add('open');
+  });
+  document.getElementById('am-cancel').addEventListener('click', () => {
+    document.getElementById('add-menu-sheet').classList.remove('open');
+  });
+  document.getElementById('add-menu-sheet').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+  });
+  document.getElementById('am-single').addEventListener('click', () => {
+    document.getElementById('add-menu-sheet').classList.remove('open');
+    setTimeout(() => openAddScreen(), 80);
+  });
+  document.getElementById('am-bulk').addEventListener('click', () => {
+    document.getElementById('add-menu-sheet').classList.remove('open');
+    setTimeout(() => openBulkScreen(), 80);
+  });
   document.getElementById('btn-close-add').addEventListener('click', () => {
     document.getElementById('scr-add').classList.remove('active');
     if (state.returnToScreen === 'detail') { document.getElementById('scr-detail').classList.add('active'); renderDetail(); }
@@ -500,7 +1009,7 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 
   function setPayer(p) {
     state.currentPayer = p;
-    document.querySelectorAll('.payer-seg').forEach(s => {
+    document.querySelectorAll('#scr-add .payer-seg').forEach(s => {
       s.classList.remove('active');
       s.removeAttribute('style');
       if (s.dataset.payer === p) {
@@ -511,7 +1020,7 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
       }
     });
   }
-  document.querySelectorAll('.payer-seg').forEach(s => s.addEventListener('click', () => setPayer(s.dataset.payer)));
+  document.querySelectorAll('#scr-add .payer-seg').forEach(s => s.addEventListener('click', () => setPayer(s.dataset.payer)));
   setPayer('me');
 
   document.getElementById('btn-save').addEventListener('click', () => {
@@ -522,7 +1031,12 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
     if (state.editingId) {
       const exp = state.expenses.find(e => e.id === state.editingId);
       if (exp) { exp.amount = amount; exp.label = label; exp.date = date; exp.payer = state.currentPayer; }
-    } else state.expenses.push({ id: nextId++, date, amount, label, payer: state.currentPayer });
+    } else {
+      const newId = nextId++;
+      state.expenses.push({ id: newId, date, amount, label, payer: state.currentPayer });
+      state.justAddedId = newId;
+    }
+    save();
     document.getElementById('scr-add').classList.remove('active');
     if (state.returnToScreen === 'detail') { document.getElementById('scr-detail').classList.add('active'); renderDetail(); }
     else document.getElementById('scr-home').classList.add('active');
@@ -532,7 +1046,6 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
   document.getElementById('btn-balance').addEventListener('click', () => {
     document.querySelectorAll('.scr').forEach(s => s.classList.remove('active'));
     document.getElementById('scr-balance').classList.add('active');
-    setBalanceTab('current');
     renderBalance();
   });
   document.getElementById('btn-close-balance').addEventListener('click', () => {
@@ -540,16 +1053,240 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
     document.getElementById('scr-home').classList.add('active');
   });
 
-  function setBalanceTab(tab) {
-    state.currentTab = tab;
-    const isH = tab === 'history';
-    document.getElementById('tab-current').style.display = isH ? 'none' : 'block';
-    document.getElementById('tab-history').style.display = isH ? 'block' : 'none';
-    document.getElementById('balance-screen-title').textContent = isH ? 'Historique' : 'Solde courant';
-    document.getElementById('btn-toggle-history').innerHTML = isH ? '<i class="ti">close</i>' : '<i class="ti">history</i>';
-    if (isH) renderHistory();
+  // Open history (separate screen now)
+  document.getElementById('btn-history').addEventListener('click', () => {
+    document.querySelectorAll('.scr').forEach(s => s.classList.remove('active'));
+    document.getElementById('scr-history').classList.add('active');
+    renderHistory();
+  });
+  document.getElementById('btn-close-history').addEventListener('click', () => {
+    document.getElementById('scr-history').classList.remove('active');
+    document.getElementById('scr-home').classList.add('active');
+  });
+
+  // ===== Bulk import =====
+  let bulkPayer = 'me';
+  let bulkParsedLines = []; // [{ raw, parsed, error }]
+
+  function openBulkScreen() {
+    document.querySelectorAll('.scr').forEach(s => s.classList.remove('active'));
+    document.getElementById('scr-bulk').classList.add('active');
+    document.getElementById('bulk-input').value = '';
+    setBulkPayer('me');
+    setTimeout(() => document.getElementById('bulk-input').focus(), 100);
   }
-  document.getElementById('btn-toggle-history').addEventListener('click', () => setBalanceTab(state.currentTab === 'history' ? 'current' : 'history'));
+  document.getElementById('btn-close-bulk').addEventListener('click', () => {
+    document.getElementById('scr-bulk').classList.remove('active');
+    document.getElementById('scr-home').classList.add('active');
+  });
+  function setBulkPayer(p) {
+    bulkPayer = p;
+    document.querySelectorAll('#scr-bulk .payer-seg').forEach(s => {
+      s.classList.remove('active');
+      s.removeAttribute('style');
+      if (s.dataset.bulkPayer === p) {
+        s.classList.add('active');
+        s.style.cssText = p === 'me'
+          ? 'background:linear-gradient(135deg,rgba(123,91,255,0.3) 0%,rgba(79,123,255,0.3) 100%);border-color:rgba(123,91,255,0.5);color:#FFF'
+          : 'background:linear-gradient(135deg,rgba(255,107,157,0.28) 0%,rgba(255,138,91,0.28) 100%);border-color:rgba(255,107,157,0.45);color:#FFF';
+      }
+    });
+    updateBulkPreview();
+  }
+
+  document.querySelectorAll('#scr-bulk [data-bulk-payer]').forEach(btn => {
+    btn.addEventListener('click', () => setBulkPayer(btn.dataset.bulkPayer));
+  });
+
+  function parseBulkLine(raw) {
+    const trimmed = raw.trim();
+    if (!trimmed) return null;
+    // Strip leading bullet markers
+    const cleaned = trimmed.replace(/^[-•*·]\s*/, '');
+    // Use existing parser, but override the payer with bulkPayer (we ignore per-line prefix)
+    // Remove any per-line payer prefix to avoid surprise overrides
+    const stripped = cleaned.replace(/^(audrey|elle|a|e|m|pierre|p)\s*[:.]\s+/i, '');
+    const p = parseExpense(stripped);
+    if (!p || !p.valid) return { raw: trimmed, error: 'Montant non détecté' };
+    return { raw: trimmed, parsed: { ...p, payer: bulkPayer } };
+  }
+
+  function updateBulkPreview() {
+    const text = document.getElementById('bulk-input').value;
+    const lines = text.split('\n');
+    bulkParsedLines = lines.map(parseBulkLine).filter(x => x !== null);
+    const validCount = bulkParsedLines.filter(x => !x.error).length;
+    const container = document.getElementById('bulk-preview');
+
+    if (bulkParsedLines.length === 0) {
+      container.innerHTML = '';
+    } else {
+      const headerLabel = validCount === bulkParsedLines.length
+        ? validCount + ' dépense' + (validCount > 1 ? 's' : '') + ' reconnue' + (validCount > 1 ? 's' : '')
+        : validCount + ' sur ' + bulkParsedLines.length + ' reconnue' + (bulkParsedLines.length > 1 ? 's' : '');
+      let html = '<p class="bulk-preview-header">' + headerLabel + '</p>';
+      bulkParsedLines.forEach(item => {
+        if (item.error) {
+          html += '<div class="bulk-line err"><i class="ti status-icon"><svg><use href="#i-close"/></svg></i><span class="label-part">' + escapeHtml(item.raw) + '</span><span class="err-msg">' + item.error + '</span></div>';
+        } else {
+          const p = item.parsed;
+          html += '<div class="bulk-line ok"><i class="ti status-icon"><svg><use href="#i-check"/></svg></i><span class="label-part">' + escapeHtml(p.label || 'Sans nom') + '</span>' + (p.dateLabel ? '<span class="date-part">' + p.dateLabel + '</span>' : '') + '<span class="amount-part">' + fmtMoney(p.amount) + '</span></div>';
+        }
+      });
+      container.innerHTML = html;
+    }
+
+    const btn = document.getElementById('btn-bulk-save');
+    btn.disabled = validCount === 0;
+    document.getElementById('bulk-save-label').textContent = validCount === 0
+      ? 'Ajouter'
+      : 'Ajouter ' + validCount + ' dépense' + (validCount > 1 ? 's' : '');
+  }
+
+  document.getElementById('bulk-input').addEventListener('input', updateBulkPreview);
+
+  document.getElementById('btn-bulk-save').addEventListener('click', () => {
+    const valid = bulkParsedLines.filter(x => !x.error);
+    if (valid.length === 0) return;
+    // Add all valid expenses
+    valid.forEach(item => {
+      const p = item.parsed;
+      state.expenses.push({ id: nextId++, date: p.date, amount: p.amount, label: p.label || 'Sans nom', payer: p.payer });
+    });
+    save();
+    document.getElementById('scr-bulk').classList.remove('active');
+    document.getElementById('scr-home').classList.add('active');
+    renderHome();
+    showToast(valid.length + ' dépense' + (valid.length > 1 ? 's' : '') + ' ajoutée' + (valid.length > 1 ? 's' : ''));
+  });
+
+  // History menu (more_vert) → confirm reset
+  // Generic confirm dialog: openConfirm({ title, text, okText, onConfirm })
+  function openConfirm(opts) {
+    document.getElementById('confirm-title').textContent = opts.title || 'Confirmer ?';
+    document.getElementById('confirm-text').textContent = opts.text || '';
+    document.getElementById('confirm-ok').textContent = opts.okText || 'OK';
+    pendingConfirmAction = opts.onConfirm || null;
+    document.getElementById('confirm-dialog').classList.add('open');
+  }
+  let pendingConfirmAction = null;
+
+  // History top menu (more_vert) → action sheet
+  document.getElementById('btn-history-menu').addEventListener('click', () => {
+    document.getElementById('history-menu-sheet').classList.add('open');
+  });
+  document.getElementById('hm-cancel').addEventListener('click', () => {
+    document.getElementById('history-menu-sheet').classList.remove('open');
+  });
+  document.getElementById('history-menu-sheet').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+  });
+  document.getElementById('hm-clear').addEventListener('click', () => {
+    document.getElementById('history-menu-sheet').classList.remove('open');
+    openConfirm({
+      title: 'Tout effacer ?',
+      text: 'Dépenses en cours et historique des règlements seront supprimés. Cette action est irréversible.',
+      okText: 'Tout effacer',
+      onConfirm: () => {
+        resetAll();
+        save();
+        document.getElementById('scr-history').classList.remove('active');
+        document.getElementById('scr-home').classList.add('active');
+        renderHome();
+        showToast('Données effacées');
+      }
+    });
+  });
+
+  // History item action sheet (long press)
+  let pendingHistoryItemId = null;
+  function openHistoryItemSheet(settlementId) {
+    const s = state.settlements.find(x => x.id === settlementId);
+    if (!s) return;
+    pendingHistoryItemId = settlementId;
+    document.getElementById('his-title').textContent = 'Clôturé le ' + fmtDay(s.closedOn);
+    document.getElementById('history-item-sheet').classList.add('open');
+    if (navigator.vibrate) navigator.vibrate(15);
+  }
+  document.getElementById('his-cancel').addEventListener('click', () => {
+    document.getElementById('history-item-sheet').classList.remove('open');
+  });
+  document.getElementById('history-item-sheet').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+  });
+  document.getElementById('his-view').addEventListener('click', () => {
+    const id = pendingHistoryItemId;
+    document.getElementById('history-item-sheet').classList.remove('open');
+    if (id) openSettlementDetail(id);
+  });
+  document.getElementById('his-delete').addEventListener('click', () => {
+    const id = pendingHistoryItemId;
+    document.getElementById('history-item-sheet').classList.remove('open');
+    if (!id) return;
+    const s = state.settlements.find(x => x.id === id);
+    if (!s) return;
+    const dateLbl = fmtDay(s.closedOn);
+    const amountLbl = fmtMoney(Math.abs(s.diff));
+    openConfirm({
+      title: 'Supprimer ce solde ?',
+      text: 'Solde du ' + dateLbl + ' (' + amountLbl + '). Cette action est irréversible.',
+      okText: 'Supprimer',
+      onConfirm: () => {
+        state.settlements = state.settlements.filter(x => x.id !== id);
+        save();
+        renderHistory();
+        showToast('Solde supprimé');
+      }
+    });
+  });
+
+  // Settlement detail screen
+  function openSettlementDetail(settlementId) {
+    const s = state.settlements.find(x => x.id === settlementId);
+    if (!s) return;
+    state.viewingSettlementId = settlementId;
+    document.querySelectorAll('.scr').forEach(scr => scr.classList.remove('active'));
+    document.getElementById('scr-settlement-detail').classList.add('active');
+    renderSettlementDetail(s);
+  }
+  document.getElementById('btn-close-settlement').addEventListener('click', () => {
+    document.getElementById('scr-settlement-detail').classList.remove('active');
+    document.getElementById('scr-history').classList.add('active');
+    state.viewingSettlementId = null;
+  });
+
+  function renderSettlementDetail(s) {
+    // Period pill: use expense range
+    let periodStr;
+    if (s.expenseFirst && s.expenseLast) {
+      if (s.expenseFirst === s.expenseLast) periodStr = 'Le ' + fmtDay(s.expenseFirst);
+      else periodStr = 'Du ' + fmtDay(s.expenseFirst) + ' au ' + fmtDay(s.expenseLast);
+    } else {
+      periodStr = 'Clôturé le ' + fmtDay(s.closedOn);
+    }
+    document.getElementById('settlement-period-pill').textContent = periodStr;
+    document.getElementById('settlement-title').textContent = 'Clôturé le ' + fmtDay(s.closedOn);
+    document.getElementById('settlement-paid-me').textContent = fmtMoney(s.meTotal);
+    document.getElementById('settlement-paid-her').textContent = fmtMoney(s.herTotal);
+    document.getElementById('settlement-total').textContent = fmtMoney(s.total);
+
+    const card = document.getElementById('settlement-card');
+    card.classList.remove('her-owes', 'zero');
+    if (s.diff > 0) {
+      document.getElementById('settlement-label').textContent = 'Audrey te devait';
+      document.getElementById('settlement-amount').innerHTML = (s.diff/100).toFixed(2).split('.')[0] + ',<span class="cents">' + ((s.diff/100).toFixed(2).split('.')[1] || '00') + ' €</span>';
+    } else if (s.diff < 0) {
+      card.classList.add('her-owes');
+      document.getElementById('settlement-label').textContent = 'Tu devais à Audrey';
+      document.getElementById('settlement-amount').innerHTML = (-s.diff/100).toFixed(2).split('.')[0] + ',<span class="cents">' + ((-s.diff/100).toFixed(2).split('.')[1] || '00') + ' €</span>';
+    } else {
+      card.classList.add('zero');
+      document.getElementById('settlement-label').textContent = 'Solde équilibré';
+      document.getElementById('settlement-amount').innerHTML = '0,<span class="cents">00 €</span>';
+    }
+    // Render expenses bubbles (read-only: no long-press menu)
+    renderBubbles(document.getElementById('settlement-chat-area'), s.expenses, null, { readOnly: true });
+  }
 
   function renderBalance() {
     const active = state.expenses.filter(e => !e.settled);
@@ -586,27 +1323,165 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
     document.getElementById('btn-settle').disabled = total === 0;
   }
 
+  // ===== Recap clipboard =====
+  function buildRecapText() {
+    const active = state.expenses.filter(e => !e.settled);
+    if (active.length === 0) return null;
+    const meT = active.filter(e => e.payer === 'me').reduce((s, e) => s + e.amount, 0);
+    const herT = active.filter(e => e.payer === 'her').reduce((s, e) => s + e.amount, 0);
+    const total = meT + herT;
+    const meS = Math.round(total * 0.55);
+    const diff = meT - meS;
+    if (diff === 0) return null;
+
+    // Période
+    const dates = active.map(e => e.date).sort();
+    const first = dates[0], last = dates[dates.length - 1];
+    let periodStr;
+    if (first === last) periodStr = 'du ' + fmtDay(first);
+    else periodStr = 'du ' + fmtDay(first) + ' au ' + fmtDay(last);
+
+    // Ligne d'accroche
+    const amount = Math.abs(diff);
+    const lead = diff > 0
+      ? 'Les comptes ' + periodStr + ' : tu me dois ' + fmtMoney(amount) + '.'
+      : 'Les comptes ' + periodStr + ' : je te dois ' + fmtMoney(amount) + '.';
+
+    // Group by person : Pierre puis Audrey
+    const lines = [lead, ''];
+    [['me', 'Pierre', meT], ['her', 'Audrey', herT]].forEach(([key, name, tot]) => {
+      const personExpenses = active.filter(e => e.payer === key);
+      if (personExpenses.length === 0) return;
+      // Sort: date desc, then amount desc
+      personExpenses.sort((a, b) => {
+        if (a.date !== b.date) return b.date.localeCompare(a.date);
+        return b.amount - a.amount;
+      });
+      lines.push(name + ' (' + fmtMoney(tot) + ') :');
+      personExpenses.forEach(e => {
+        lines.push('• ' + e.label + ' : ' + fmtMoney(e.amount));
+      });
+      lines.push('');
+    });
+    return lines.join('\n').trim();
+  }
+
+  function showToast(message) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-text').textContent = message;
+    t.classList.add('show');
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  async function copyRecapToClipboard() {
+    const text = buildRecapText();
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      if (navigator.vibrate) navigator.vibrate(15);
+      showToast('Récap copié');
+    } catch (err) {
+      // Fallback for older browsers / non-secure contexts
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast('Récap copié'); }
+      catch (e) { showToast('Copie impossible'); }
+      document.body.removeChild(ta);
+    }
+  }
+
+  document.getElementById('bal-card').addEventListener('click', () => {
+    // Ne pas copier si solde équilibré ou pas de dépenses
+    if (document.getElementById('bal-card').classList.contains('zero')) return;
+    copyRecapToClipboard();
+  });
+
   function renderHistory() {
     const list = document.getElementById('history-list');
     if (state.settlements.length === 0) { list.innerHTML = '<div class="history-empty">Aucun règlement clôturé pour l\'instant.</div>'; return; }
     list.innerHTML = '';
     [...state.settlements].reverse().forEach(s => {
-      const dir = s.diff > 0 ? 'to-me' : 'to-her';
-      const arr = s.diff > 0 ? 'arrow_back' : 'arrow_forward';
-      const lbl = s.diff > 0 ? 'Audrey te devait' : 'Tu devais à Audrey';
-      list.innerHTML += '<div class="history-item"><div class="history-direction ' + dir + '"><i class="ti">' + arr + '</i></div><div class="history-main"><div class="history-date">' + fmtDay(s.closedOn) + ' · ' + fmtDay(s.periodStart) + ' → ' + fmtDay(s.periodEnd) + '</div><div class="history-period">' + lbl + '</div></div><div class="history-amount ' + dir + '">' + fmtMoney(Math.abs(s.diff)) + '</div></div>';
+      const dir = s.diff > 0 ? 'to-me' : (s.diff < 0 ? 'to-her' : 'zero');
+      const arr = s.diff > 0 ? 'arrow_back' : (s.diff < 0 ? 'arrow_forward' : 'check');
+      const lbl = s.diff > 0 ? 'Audrey te devait' : (s.diff < 0 ? 'Tu devais à Audrey' : 'Équilibré');
+      // Period: use expense range if available
+      let periodLabel;
+      if (s.expenseFirst && s.expenseLast) {
+        periodLabel = s.expenseFirst === s.expenseLast
+          ? fmtDay(s.expenseFirst)
+          : fmtDay(s.expenseFirst) + ' → ' + fmtDay(s.expenseLast);
+      } else {
+        periodLabel = fmtDay(s.periodStart) + ' → ' + fmtDay(s.periodEnd);
+      }
+      const item = document.createElement('div');
+      item.className = 'history-item';
+      item.dataset.settlementId = s.id;
+      item.innerHTML = '<div class="history-direction ' + dir + '"><i class="ti"><svg><use href="#i-' + arr + '"/></svg></i></div><div class="history-main"><div class="history-date">Clôturé le ' + fmtDay(s.closedOn) + ' · ' + periodLabel + '</div><div class="history-period">' + lbl + '</div></div><div class="history-amount ' + dir + '">' + fmtMoney(Math.abs(s.diff)) + '</div>';
+      // Tap: open detail, long-press: action sheet
+      attachHistoryLongPress(item, s.id);
+      list.appendChild(item);
+    });
+  }
+
+  function attachHistoryLongPress(el, id) {
+    let timer = null, fired = false;
+    const start = () => {
+      fired = false;
+      timer = setTimeout(() => { fired = true; openHistoryItemSheet(id); }, 500);
+    };
+    const cancel = () => { if (timer) { clearTimeout(timer); timer = null; } };
+    el.addEventListener('mousedown', start);
+    el.addEventListener('touchstart', start, { passive: true });
+    el.addEventListener('mouseup', cancel);
+    el.addEventListener('mouseleave', cancel);
+    el.addEventListener('touchend', cancel);
+    el.addEventListener('touchmove', cancel);
+    el.addEventListener('touchcancel', cancel);
+    el.addEventListener('click', e => {
+      if (fired) { e.preventDefault(); e.stopPropagation(); return; }
+      openSettlementDetail(id);
     });
   }
 
   document.getElementById('btn-settle').addEventListener('click', () => {
     const active = state.expenses.filter(e => !e.settled);
+    if (active.length === 0) return;
     const meT = active.filter(e => e.payer === 'me').reduce((s, e) => s + e.amount, 0);
     const herT = active.filter(e => e.payer === 'her').reduce((s, e) => s + e.amount, 0);
-    if (meT + herT === 0) return;
-    const diff = meT - Math.round((meT + herT) * 0.55);
-    state.settlements.push({ id: Date.now(), closedOn: fmt(today), periodStart: state.periodStart, periodEnd: fmt(today), diff });
-    state.expenses.forEach(e => { if (!e.settled) e.settled = true; });
+    const total = meT + herT;
+    if (total === 0) return;
+    const meS = Math.round(total * 0.55);
+    const herS = total - meS;
+    const diff = meT - meS;
+    // Snapshot of expenses with date range
+    const dates = active.map(e => e.date).sort();
+    const periodFirst = dates[0];
+    const periodLast = dates[dates.length - 1];
+    state.settlements.push({
+      id: Date.now(),
+      closedOn: fmt(today),
+      periodStart: state.periodStart,
+      periodEnd: fmt(today),
+      expenseFirst: periodFirst,
+      expenseLast: periodLast,
+      meTotal: meT,
+      herTotal: herT,
+      total: total,
+      meShare: meS,
+      herShare: herS,
+      shareRatio: { me: 0.55, her: 0.45 },
+      diff: diff,
+      expenses: active.map(e => ({ id: e.id, date: e.date, amount: e.amount, label: e.label, payer: e.payer }))
+    });
+    // Toutes les dépenses ont été copiées dans le settlement
+    state.expenses = [];
     state.periodStart = fmt(today);
+    save();
     document.getElementById('scr-balance').classList.remove('active');
     document.getElementById('scr-home').classList.add('active');
     renderHome();
@@ -640,8 +1515,24 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
     document.getElementById('detail-amount').textContent = fmtMoney(total);
     document.getElementById('detail-summary').className = 'detail-summary ' + p;
     document.getElementById('detail-period-pill').textContent = periodLabel(active);
-    renderBubbles(document.getElementById('detail-chat-area'), state.expenses.filter(e => !e.settled), p);
+    renderBubbles(document.getElementById('detail-chat-area'), state.expenses.filter(e => !e.settled), p, { showPeriodBanner: true });
   }
+
+  // Auto-animate screen transitions: when an .scr gets the 'active' class, replay screen-enter
+  document.querySelectorAll('.scr').forEach(scr => {
+    let wasActive = scr.classList.contains('active');
+    new MutationObserver(() => {
+      const isActive = scr.classList.contains('active');
+      if (isActive && !wasActive) {
+        scr.classList.remove('screen-enter');
+        // Force reflow so animation can restart
+        void scr.offsetWidth;
+        scr.classList.add('screen-enter');
+        setTimeout(() => scr.classList.remove('screen-enter'), 280);
+      }
+      wasActive = isActive;
+    }).observe(scr, { attributes: true, attributeFilter: ['class'] });
+  });
 
   renderHome();
   updatePreview();
