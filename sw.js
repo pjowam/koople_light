@@ -1,9 +1,9 @@
 // moNeY — Service Worker
 // Bump CACHE_VERSION whenever you ship a new build to force clients to refresh.
-const CACHE_VERSION = 'money-v2';
+const CACHE_VERSION = 'money-v3';
 
-// App shell — relative URLs resolve against the SW scope (works on GitHub Pages
-// project pages like user.github.io/koople-light/ without hardcoding the path).
+// App shell — relative URLs resolve against the SW scope (works on a GitHub
+// Pages project subpath like user.github.io/<repo>/ without hardcoding it).
 const APP_SHELL = [
   './',
   './index.html',

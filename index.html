@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
-<meta name="theme-color" content="#0A0A14">
+<meta name="theme-color" content="#7B5BFF">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>moNeY</title>
@@ -17,12 +17,13 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <style>
+*, *::before, *::after { box-sizing: border-box; }
 .ti { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; width: 1em; height: 1em; line-height: 1; font-size: 24px; color: currentColor; }
 .ti svg { width: 100%; height: 100%; fill: currentColor; display: block; }
 body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height: 100dvh; color: #FFF; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; overscroll-behavior: none; }
 .proto-shell { width: 100%; min-height: 100vh; min-height: 100dvh; }
 .phone { background: #0A0A14; min-height: 100vh; min-height: 100dvh; position: relative; overflow: hidden; }
-.scr { color: #FFF; min-height: 100vh; min-height: 100dvh; position: relative; display: none; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.scr { color: #FFF; min-height: 100vh; min-height: 100dvh; position: relative; display: none; padding-bottom: env(safe-area-inset-bottom, 0px); }
 .scr.active { display: block; }
 .scr.screen-enter { animation: screenIn 0.3s cubic-bezier(0.32, 0.72, 0, 1) both; }
 @keyframes screenIn {
@@ -40,7 +41,7 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 .notch-desktop { display: none; width: 80px; height: 22px; background: #000; border-radius: 0 0 16px 16px; margin: 0 auto 6px; }
 .statusbar-desktop { display: none; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 600; opacity: 0.9; margin: 0 22px 16px; padding: 0 4px; }
 .statusbar-desktop .right { display: flex; gap: 4px; align-items: center; font-size: 10px; }
-.top-row { display: flex; justify-content: space-between; align-items: center; margin: 0 18px 14px; padding-top: 14px; }
+.top-row { display: flex; justify-content: space-between; align-items: center; margin: 0 0 14px; padding: calc(env(safe-area-inset-top, 0px) + 14px) 18px 12px; background: linear-gradient(135deg, #7B5BFF 0%, #FF6B9D 100%); position: relative; }
 .av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; color: #FFF; cursor: pointer; }
 .av-me-grad { background: linear-gradient(135deg, #7B5BFF 0%, #4F7BFF 100%); }
 .menu-dot { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #FFF; cursor: pointer; border: none; font-family: inherit; }
@@ -50,7 +51,7 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
 .period-row { display: flex; justify-content: center; margin: 0 18px 14px; }
 .totals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 18px 14px; }
 .home-header { position: relative; padding: 0 18px 10px; }
-.home-top-row { margin-bottom: 0 !important; padding-top: 10px; padding-bottom: 6px; }
+.home-top-row { margin-bottom: 0 !important; padding-top: calc(env(safe-area-inset-top, 0px) + 10px); padding-bottom: 6px; }
 .totals-merged { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; position: relative; }
 .merge-balance-btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 3; width: 42px; height: 42px; border-radius: 50%; background: radial-gradient(circle at 50% 22%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%), linear-gradient(135deg, #7B5BFF 0%, #FF6B9D 100%); border: none; display: flex; align-items: center; justify-content: center; font-size: 19px; color: #FFF; cursor: pointer; transition: transform 0.12s, filter 0.15s, box-shadow 0.15s; font-family: inherit; box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 -2px 5px rgba(0,0,0,0.3) inset, 0 2px 0 rgba(80,40,120,0.5), 0 4px 0 rgba(60,30,90,0.35), 0 6px 14px rgba(0,0,0,0.35); }
 .merge-balance-btn:active { transform: translate(-50%, -50%) translateY(2px) scale(0.96); filter: brightness(1.05); box-shadow: 0 1px 0 rgba(255,255,255,0.3) inset, 0 -1px 3px rgba(0,0,0,0.25) inset, 0 1px 0 rgba(80,40,120,0.5), 0 2px 0 rgba(60,30,90,0.35), 0 3px 8px rgba(0,0,0,0.35); }
@@ -545,7 +546,7 @@ body { margin: 0; padding: 0; background: #0A0A14; min-height: 100vh; min-height
   const daysAgo = n => { const d = new Date(today); d.setDate(d.getDate() - n); return fmt(d); };
 
   // ===== Persistence =====
-  const STORAGE_KEY = 'koople.v1';
+  const STORAGE_KEY = 'money.v1';
   const STORAGE_VERSION = 1;
   let nextId = 1;
 
